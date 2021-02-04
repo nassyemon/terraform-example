@@ -1,0 +1,14 @@
+{
+     "editor.insertSpaces": true,
+     "editor.tabSize": 2,
+     "editor.formatOnSave": true,
+     "editor.renderWhitespace": "all",
+     "files.associations": {
+          "*.ctmpl": "hcl",
+          "*.tf": "terraform",
+          "*.tfvars": "terraform"
+     },
+     "[terraform]": {
+          "editor.formatOnSave": true
+     }
+}

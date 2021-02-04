@@ -19,12 +19,13 @@
 
 # Ignored Terraform files
 *gitignore*.tf
+*.hcl
 
 # Ignore Mac .DS_Store files
 .DS_Store
 
 # Ignored vscode files
-.vscode/
+# .vscode/
 
 # Ignore Any Generated JSON Files
 

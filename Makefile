@@ -1,11 +1,8 @@
-# variables
-DIR :=  "./"
-#ENV_FILE := "./.env"
-#ENVS := $(shell cat ${ENV_FILE} | grep -v '\#' | xargs )
+SHELL := ENV=${ENV} ./entrypoint.sh
 
 .PHONY: init
 init:
-	terraform init
+	terraform init -reconfigure --backend-config="bucket=$${BE_BUCKET}" --backend-config="key=$${BE_KEY}" --backend-config="region=$${BE_REGION}"
 
 .PHONY: plan
 plan:
@@ -16,8 +13,8 @@ apply:
 	terraform apply -var-file shared.tfvars
 
 .PHONY: destroy
-destory:
-	terraform destory -var-file shared.tfvars
+destroy:
+	terraform destroy -var-file shared.tfvars
 
 .PHONY: fmt
 fmt:

@@ -1,4 +1,3 @@
-
 terraform {
   required_version = "=0.14.5"
 
@@ -17,17 +16,13 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_vpc" "vpc" {
-  cidr_block           = var.aws_vpc_cidr
-  instance_tenancy     = "default"
-  enable_dns_support   = "true"
-  enable_dns_hostnames = "false"
-
-  tags = {
-    Name = var.aws_vpc_tags_name
-  }
-}
-
-output "vpc-id" {
-  value = aws_vpc.vpc.arn
+module "production-network" {
+  source = "./modules/network"
+  aws_vpc_cidr = var.aws_vpc_cidr_prd
+  aws_vpc_tags_name = var.aws_vpc_tags_name
+  availability_zones = var.availability_zones
+  webapp_subnet_cidrs = var.webapp_subnet_cidrs_prd
+  database_subnet_cidrs = var.database_subnet_cidrs_prd
+  public_subnet_cidrs = var.public_subnet_cidrs_prd
+  network_env = "prd"
 }

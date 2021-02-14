@@ -4,7 +4,7 @@ BE_BUCKET := $(shell env ${ENVS} sh -c 'echo $$BE_BUCKET')
 BE_KEY := $(shell env ${ENVS} sh -c 'echo $$BE_KEY')
 BE_REGION := $(shell env ${ENVS} sh -c 'echo $$BE_REGION')
 
-# If the first argument is "rails" or "rake"
+# For commands that require additional arguments."
 ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))
   # use the rest as arguments.
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -18,15 +18,15 @@ init:
 
 .PHONY: plan
 plan:
-	terraform plan -var-file ../shared.tfvars
+	terraform plan -var-file ../env/global/main.tfvars
 
 .PHONY: apply
 apply:
-	terraform apply -var-file ../shared.tfvars
+	terraform apply -var-file ../env/global/main.tfvars
 
 .PHONY: destroy
 destroy:
-	terraform destroy -var-file ../shared.tfvars
+	terraform destroy -var-file ../env/global/main.tfvars
 
 .PHONY: fmt
 fmt:

@@ -1,5 +1,6 @@
-variable "env" {}
-variable "aws_region" {}
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}
 variable "aws_vpc_cidr_prd" {
   description = "VPC cidr block. Example: 10.0.0.0/16"
 }

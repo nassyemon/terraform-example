@@ -1,21 +1,3 @@
-terraform {
-  required_version = "=0.14.5"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-
-  backend "s3" {
-  }
-}
-
-provider "aws" {
-  region = var.aws_region
-}
-
 module "production_network" {
   source = "./modules/network"
   aws_vpc_cidr = var.aws_vpc_cidr_prd
@@ -25,5 +7,6 @@ module "production_network" {
   database_subnet_cidrs = var.database_subnet_cidrs_prd
   public_subnet_cidrs = var.public_subnet_cidrs_prd
   destination_cidr_block = var.destination_cidr_block
+  disabled = var.disabled
   network_env = "prd"
 }

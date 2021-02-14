@@ -43,6 +43,7 @@ module "nat" {
   network_env        = var.network_env
   subnet_count = length(var.public_subnet_cidrs)
   availability_zones = var.availability_zones
+  disabled = var.disabled
 }
 
 resource "aws_route" "public_igw_route" {
@@ -58,7 +59,7 @@ resource "aws_route" "webapp_nat_route" {
   nat_gateway_id         = element(module.nat.ids, count.index)
   destination_cidr_block = var.destination_cidr_block
 
-  count                  = length(var.webapp_subnet_cidrs)
+  count                  = module.nat.disabled ? 0 : length(var.webapp_subnet_cidrs)
 }
 
 # Creating a NAT Gateway takes some time. Some services need the internet (NAT Gateway) before proceeding. 

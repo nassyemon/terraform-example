@@ -1,3 +1,7 @@
+variable "disabled" {
+  description = "set 1 or true to reduce payment"
+}
+
 variable "aws_vpc_cidr" {
   description = "VPC cidr block. Example: 10.0.0.0/16"
 }

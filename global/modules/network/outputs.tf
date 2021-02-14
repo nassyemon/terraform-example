@@ -23,3 +23,7 @@ output "database_subnet_ids" {
 output "depends_id" {
   value = null_resource.dummy_dependency.id
 }
+
+output "disabled" {
+  value = length(aws_route.webapp_nat_route) > 0 ? false : true
+}

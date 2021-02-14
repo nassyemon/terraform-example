@@ -14,3 +14,7 @@ output "development_network" {
       database_subnet_ids = module.production_network.database_subnet_ids
     }
 }
+
+output "disabled" {
+  value = module.production_network.disabled
+}

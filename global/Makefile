@@ -24,6 +24,14 @@ plan:
 apply:
 	terraform apply -var-file ../env/global/main.tfvars
 
+.PHONY: plan-disable
+plan-disable:
+	TF_VAR_disabled=true make plan
+
+.PHONY: apply-disable
+apply-disable:
+	TF_VAR_disabled=true make apply
+
 .PHONY: destroy
 destroy:
 	terraform destroy -var-file ../env/global/main.tfvars

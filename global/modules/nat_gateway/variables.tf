@@ -1,3 +1,7 @@
+variable "disabled" {
+  description = "set 1 or true to reduce payment"
+}
+
 variable "network_env" {
   description = "prd or dev."
 }

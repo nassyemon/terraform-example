@@ -24,5 +24,6 @@ module "production-network" {
   webapp_subnet_cidrs = var.webapp_subnet_cidrs_prd
   database_subnet_cidrs = var.database_subnet_cidrs_prd
   public_subnet_cidrs = var.public_subnet_cidrs_prd
+  destination_cidr_block = var.destination_cidr_block
   network_env = "prd"
 }

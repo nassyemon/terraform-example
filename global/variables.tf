@@ -22,3 +22,7 @@ variable "public_subnet_cidrs_prd" {
 variable "aws_vpc_tags_name" {
   description = "VPC tag name."
 }
+variable "destination_cidr_block" {
+  default     = "0.0.0.0/0"
+  description = "Specify all traffic to be routed either trough Internet Gateway or NAT to access the internet"
+}

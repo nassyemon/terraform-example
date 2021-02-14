@@ -16,7 +16,7 @@ output "webapp_subnet_ids" {
   value = module.webapp_subnet.ids
 }
 
-output "dtabase_subnet_ids" {
+output "database_subnet_ids" {
   value = module.database_subnet.ids
 }
 

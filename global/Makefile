@@ -1,8 +1,16 @@
-ENV_FILE=./global.env
+ENV_FILE=../env/global/backend.env
 ENVS=$(shell cat ${ENV_FILE} | grep -v '\#' | xargs )
 BE_BUCKET := $(shell env ${ENVS} sh -c 'echo $$BE_BUCKET')
 BE_KEY := $(shell env ${ENVS} sh -c 'echo $$BE_KEY')
 BE_REGION := $(shell env ${ENVS} sh -c 'echo $$BE_REGION')
+
+# If the first argument is "rails" or "rake"
+ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))
+  # use the rest as arguments.
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(RUN_ARGS):;@:)
+endif
 
 .PHONY: init
 init:
@@ -23,3 +31,11 @@ destroy:
 .PHONY: fmt
 fmt:
 	terraform fmt
+
+.PHONY: output
+output:
+	terraform output $(RUN_ARGS)
+
+.PHONY: output-json
+output-json:
+	terraform output -json $(RUN_ARGS)

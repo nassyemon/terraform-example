@@ -1,18 +1,3 @@
-
-terraform {
-  required_version = "=0.14.5"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 3.0"
-    }
-  }
-
-  backend "s3" {
-  }
-}
-
 data "terraform_remote_state" "global" {
   backend = "s3"
 
@@ -34,6 +19,21 @@ locals {
   database_subnet_ids = local.network.database_subnet_ids
 }
 
-provider "aws" {
-  region = var.aws_region
+module "rds" {
+  source = "./modules/rds"
+
+  env = var.env
+  project = var.project
+  name = var.rds_name
+  database_subnet_ids = local.network.database_subnet_ids
+  rds_security_group_ids = []
+  username = var.rds_username
+  instance_class = var.rds_instance_params.instance_class
+  allocated_storage = var.rds_instance_params.allocated_storage
+  storage_class = var.rds_instance_params.storage_class
+  multi_az = var.rds_instance_params.multi_az
+  backup_window = var.rds_instance_params.backup_window
+  maintenance_window = var.rds_instance_params.maintenance_window
+
+  disabled = var.disabled
 }

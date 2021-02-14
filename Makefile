@@ -1,5 +1,9 @@
 SHELL := ENV=${ENV} ./entrypoint.sh
-MAIN_TFVAR := env/${ENV}/main.tfvars
+MAIN_TFVARS := env/${ENV}/main.tfvars
+DATABASE_TFVARS := env/${ENV}/database.tfvars
+SHARED_TFVARS := env/shared.tfvars
+
+VAR_FILE_ARGS := -var-file ${SHARED_TFVARS} -var-file ${MAIN_TFVARS}  -var-file ${DATABASE_TFVARS} 
 
 # For commands that require additional arguments."
 ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))
@@ -15,15 +19,23 @@ init:
 
 .PHONY: plan
 plan:
-	terraform plan -var-file ${MAIN_TFVAR}
+	terraform plan ${VAR_FILE_ARGS}
 
 .PHONY: apply
 apply:
-	terraform apply -var-file ${MAIN_TFVAR}
+	terraform apply ${VAR_FILE_ARGS}
+
+.PHONY: plan-disable
+plan-disable:
+	TF_VAR_disabled=true make plan
+
+.PHONY: apply-disable
+apply-disable:
+	TF_VAR_disabled=true make apply
 
 .PHONY: destroy
 destroy:
-	terraform destroy -var-file ${MAIN_TFVAR}
+	terraform destroy ${VAR_FILE_ARGS}
 
 .PHONY: fmt
 fmt:

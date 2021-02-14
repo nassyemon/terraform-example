@@ -1,11 +1,11 @@
-output "public_subnet_ids" {
-  value = local.public_subnet_ids
+output rds_name {
+  value = module.rds.name
 }
 
-output "webapp_subnet_ids" {
-  value = local.webapp_subnet_ids
+output rds_ssm_username_arn {
+  value = module.rds.ssm_username_arn
 }
 
-output "database_subnet_ids" {
-  value = local.database_subnet_ids
+output rds_secrets_password_arn {
+  value = module.rds.secrets_password_arn
 }

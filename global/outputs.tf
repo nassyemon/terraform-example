@@ -1,4 +1,4 @@
-output "production_network" {
+output production_network {
     value = {
       vpc_id = module.production_network.vpc_id
       public_subnet_ids = module.production_network.public_subnet_ids
@@ -8,7 +8,7 @@ output "production_network" {
 }
 
 # dummy.
-output "development_network" {
+output development_network {
     value = {
       vpc_id = module.production_network.vpc_id
       public_subnet_ids = module.production_network.public_subnet_ids
@@ -17,6 +17,6 @@ output "development_network" {
     }
 }
 
-output "disabled" {
+output disabled {
   value = module.production_network.disabled
 }

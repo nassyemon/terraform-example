@@ -1,4 +1,4 @@
-resource "aws_vpc" "vpc" {
+resource aws_vpc vpc {
   cidr_block           = var.aws_vpc_cidr
   instance_tenancy     = "default"
   enable_dns_support   = "true"
@@ -9,7 +9,7 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-resource "aws_internet_gateway" "vpc" {
+resource aws_internet_gateway vpc {
   vpc_id = aws_vpc.vpc.id
 
   tags = {

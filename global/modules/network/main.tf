@@ -1,4 +1,4 @@
-module "vpc" {
+module vpc {
   source = "../vpc"
 
   aws_vpc_cidr = var.aws_vpc_cidr
@@ -6,7 +6,7 @@ module "vpc" {
   network_env = var.network_env
 }
 
-module "webapp_subnet" {
+module webapp_subnet {
   source = "../subnet"
 
   name               = "webapp-subnet"
@@ -16,7 +16,7 @@ module "webapp_subnet" {
   availability_zones = var.availability_zones
 }
 
-module "database_subnet" {
+module database_subnet {
   source = "../subnet"
 
   name               = "database-subnet"
@@ -26,7 +26,7 @@ module "database_subnet" {
   availability_zones = var.availability_zones
 }
 
-module "public_subnet" {
+module public_subnet {
   source = "../subnet"
 
   name               = "public-subnet"
@@ -36,7 +36,7 @@ module "public_subnet" {
   availability_zones = var.availability_zones
 }
 
-module "nat" {
+module nat {
   source = "../nat_gateway"
 
   subnet_ids   = module.public_subnet.ids
@@ -46,7 +46,7 @@ module "nat" {
   disabled = var.disabled
 }
 
-resource "aws_route" "public_igw_route" {
+resource aws_route public_igw_route {
   route_table_id         = element(module.public_subnet.route_table_ids, count.index)
   gateway_id             = module.vpc.igw
   destination_cidr_block = var.destination_cidr_block
@@ -54,7 +54,7 @@ resource "aws_route" "public_igw_route" {
   count                  = length(var.public_subnet_cidrs)
 }
 
-resource "aws_route" "webapp_nat_route" {
+resource aws_route webapp_nat_route {
   route_table_id         = element(module.webapp_subnet.route_table_ids, count.index)
   nat_gateway_id         = element(module.nat.ids, count.index)
   destination_cidr_block = var.destination_cidr_block
@@ -67,6 +67,6 @@ resource "aws_route" "webapp_nat_route" {
 # Currently Terraform does not allow module dependency to wait on.
 # Therefore we use a workaround described here: https://github.com/hashicorp/terraform/issues/1178#issuecomment-207369534
 
-resource "null_resource" "dummy_dependency" {
+resource null_resource dummy_dependency {
   depends_on = [module.nat]
 }

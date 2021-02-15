@@ -1,4 +1,4 @@
-module "production_network" {
+module production_network {
   source = "./modules/network"
   aws_vpc_cidr = var.aws_vpc_cidr_prd
   aws_vpc_tags_name = var.aws_vpc_tags_name

@@ -5,7 +5,7 @@ locals {
   rds_name = "${local.sg_prefix}-rds"
 }
 
-resource "aws_security_group" "external_alb" {
+resource aws_security_group external_alb {
     name = local.external_alb_name
     description = "security group for ${local.external_alb_name}"
     vpc_id = var.vpc_id
@@ -24,7 +24,7 @@ resource "aws_security_group" "external_alb" {
     }
 }
 
-resource "aws_security_group" "webapp" {
+resource aws_security_group webapp {
     name = local.webapp_name
     description = "security group for ${local.webapp_name}"
     vpc_id = var.vpc_id
@@ -51,7 +51,7 @@ resource "aws_security_group" "webapp" {
     }
 }
 
-resource "aws_security_group" "rds" {
+resource aws_security_group rds {
     name = local.rds_name
     description = "security group for ${local.rds_name}"
     vpc_id = var.vpc_id

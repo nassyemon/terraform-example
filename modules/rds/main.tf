@@ -3,7 +3,7 @@ locals {
 }
 
 # Create RDSinstance
-resource "aws_db_instance" "rds" {
+resource aws_db_instance rds {
     identifier                = local.rds_identifier
     allocated_storage         = var.allocated_storage
     storage_type              = var.storage_class
@@ -37,7 +37,7 @@ resource "aws_db_instance" "rds" {
 }
 
 # Parameter Group for rds
-resource "aws_db_parameter_group" "rds" {
+resource aws_db_parameter_group rds {
   name = "${local.rds_identifier}-pg"
   family = "mysql8.0"
   description = "RDS parameter group for ${local.rds_identifier}"
@@ -54,7 +54,7 @@ resource "aws_db_parameter_group" "rds" {
 }
 
 # Subnet Group for mysql
-resource "aws_db_subnet_group" "rds" {
+resource aws_db_subnet_group rds {
   name = "${local.rds_identifier}-subnet-group"
   description = "subnet group for ${local.rds_identifier}"
   subnet_ids = var.database_subnet_ids
@@ -64,7 +64,7 @@ resource "aws_db_subnet_group" "rds" {
   }
 }
 
-resource "random_password" "password" {
+resource random_password password {
   length = 16
   special = true
   override_special = "_%@"

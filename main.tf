@@ -20,7 +20,7 @@ locals {
   database_subnet_ids = local.network.database_subnet_ids
 }
 
-module security_group {
+module "security_group" {
   source   = "./modules/security_group"
   env      = var.env
   project  = var.project
@@ -28,7 +28,17 @@ module security_group {
   rds_port = 3306
 }
 
-module rds {
+module "alb" {
+  source = "./modules/alb"
+
+  env                    = var.env
+  project                = var.project
+  hosted_zone_id = var.hosted_zone_id
+  hosted_zone_name = var.hosted_zone_name
+  subdomain_external_alb = var.subdomain_external_alb
+}
+
+module "rds" {
   source = "./modules/rds"
 
   env                    = var.env

@@ -20,6 +20,7 @@ resource aws_security_group external_alb {
 
     tags = {
       Env = var.env
+      Project = var.project
       Name = local.external_alb_name
     }
 }
@@ -47,6 +48,7 @@ resource aws_security_group webapp {
 
     tags = {
       Env = var.env
+      Project = var.project
       Name = local.webapp_name
     }
 }
@@ -74,6 +76,7 @@ resource aws_security_group rds {
 
     tags = {
       Env = var.env
+      Project = var.project
       Name = local.rds_name
     }
 }

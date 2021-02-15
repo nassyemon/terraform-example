@@ -13,7 +13,7 @@ resource "aws_db_instance" "rds" {
     name                      = var.name
     username                  = var.username
     password                  = random_password.password.result
-    port                      = 3306
+    port                      = var.port
     publicly_accessible       = false
     security_group_names      = []
     vpc_security_group_ids    = var.rds_security_group_ids

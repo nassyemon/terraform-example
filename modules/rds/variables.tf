@@ -24,6 +24,10 @@ variable "rds_security_group_ids" {
   description = "List of securty groups attached to RDS."
 }
 
+variable "port" {
+  description = "port that the rds listens"
+}
+
 variable "username" {
   description = "username for rds"
 }

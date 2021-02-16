@@ -8,7 +8,10 @@
           "*.tf": "terraform",
           "*.tfvars": "terraform"
      },
+     "[json]": {
+          "editor.formatOnSave": false
+     },
      "[terraform]": {
-          "editor.formatOnSave": true
+          "editor.formatOnSave": false
      }
 }

@@ -1,0 +1,20 @@
+- name: app
+  image: "${docker_repository}:latest"
+  essential: true
+  portMappings:
+    - containerPort: ${app_container_port}
+      hostPort: 80
+      protocol: tcp
+  environment:
+    - name: "ENVIRONMENT"
+      value: ${environment}
+    - name: "MYSQL_HOST"
+      value: dummy
+    - name: "REDIS_HOST"
+      value: dummy
+  # logConfiguration:
+  #   logDriver: awslogs
+  #   options:
+  #     awslogs-region: ${aws_region}
+  #     awslogs-group: ${aws_log_group}
+  #     awslogs-stream-prefix: ${app_log_prefix}

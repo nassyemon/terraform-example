@@ -29,15 +29,15 @@ variable "global_be_region" {
 }
 
 # alb
-variable hosted_zone_id {
+variable "hosted_zone_id" {
   description = "Hosted zone id found in Route53 hosted zone."
 }
 
-variable hosted_zone_name {
+variable "hosted_zone_name" {
   description = "Example: example.com"
 }
 
-variable subdomain_external_alb {
+variable "subdomain_external_alb" {
   description = "Example: 'webapp_dev' in webapp_dev.example.com"
 }
 

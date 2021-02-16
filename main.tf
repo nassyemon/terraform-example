@@ -14,6 +14,7 @@ locals {
     data.terraform_remote_state.global.outputs.production_network
     : data.terraform_remote_state.global.outputs.development_network
   )
+  ecr_webapp          = data.terraform_remote_state.global.outputs.ecr_webapp
   vpc_id              = local.network.vpc_id
   public_subnet_ids   = local.network.public_subnet_ids
   webapp_subnet_ids   = local.network.webapp_subnet_ids
@@ -28,16 +29,25 @@ module "security_group" {
   rds_port = 3306
 }
 
+module "ecs" {
+  source = "./modules/ecs"
+
+  env                    = var.env
+  project                = var.project
+  webapp_repository_url  = local.ecr_webapp.repository_url
+}
+
+
 module "alb" {
   source = "./modules/alb"
 
   env                    = var.env
   project                = var.project
-  hosted_zone_id = var.hosted_zone_id
-  hosted_zone_name = var.hosted_zone_name
+  hosted_zone_id         = var.hosted_zone_id
+  hosted_zone_name       = var.hosted_zone_name
   subdomain_external_alb = var.subdomain_external_alb
-  public_subnet_ids = local.public_subnet_ids
-  sg_external_alb_ids = [module.security_group.external_alb_id]
+  public_subnet_ids      = local.public_subnet_ids
+  sg_external_alb_ids    = [module.security_group.external_alb_id]
 }
 
 module "rds" {

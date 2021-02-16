@@ -36,6 +36,8 @@ module "alb" {
   hosted_zone_id = var.hosted_zone_id
   hosted_zone_name = var.hosted_zone_name
   subdomain_external_alb = var.subdomain_external_alb
+  public_subnet_ids = local.public_subnet_ids
+  sg_external_alb_ids = [module.security_group.external_alb_id]
 }
 
 module "rds" {

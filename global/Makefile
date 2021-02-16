@@ -4,6 +4,8 @@ BE_BUCKET := $(shell env ${ENVS} sh -c 'echo $$BE_BUCKET')
 BE_KEY := $(shell env ${ENVS} sh -c 'echo $$BE_KEY')
 BE_REGION := $(shell env ${ENVS} sh -c 'echo $$BE_REGION')
 
+VAR_FILE_ARGS := -var-file ../env/global/main.tfvars
+
 # For commands that require additional arguments."
 ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))
   # use the rest as arguments.
@@ -18,11 +20,11 @@ init:
 
 .PHONY: plan
 plan:
-	terraform plan -var-file ../env/global/main.tfvars
+	terraform plan ${VAR_FILE_ARGS}
 
 .PHONY: apply
 apply:
-	terraform apply -var-file ../env/global/main.tfvars
+	terraform apply ${VAR_FILE_ARGS}
 
 .PHONY: plan-disable
 plan-disable:
@@ -34,7 +36,7 @@ apply-disable:
 
 .PHONY: destroy
 destroy:
-	terraform destroy -var-file ../env/global/main.tfvars
+	terraform destroy ${VAR_FILE_ARGS}
 
 .PHONY: fmt
 fmt:

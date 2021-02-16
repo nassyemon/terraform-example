@@ -8,10 +8,10 @@ terraform {
     }
   }
 
-  backend s3 {
+  backend "s3" {
   }
 }
 
-provider aws {
+provider "aws" {
   region = var.aws_region
 }

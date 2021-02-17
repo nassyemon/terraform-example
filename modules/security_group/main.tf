@@ -44,6 +44,14 @@ resource aws_security_group webapp {
       security_groups = [aws_security_group.external_alb.id]
     }
 
+    ingress {
+      from_port = 32768
+      to_port = 61000
+      protocol = "tcp"
+      security_groups = [aws_security_group.external_alb.id]
+    }
+
+
     # anywhere
     egress {
       from_port = 0

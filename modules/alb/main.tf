@@ -131,10 +131,12 @@ resource aws_alb_target_group external_alb {
 
   health_check {
     path     = var.webapp_health_check_path
-    interval = 10
-    healthy_threshold = 5
-    unhealthy_threshold = 2
     protocol = "HTTP"
+    port = 80
+    interval = 20
+    timeout = 10
+    healthy_threshold = 2
+    unhealthy_threshold = 10
   }
 
   tags = {

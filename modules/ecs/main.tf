@@ -2,22 +2,9 @@ locals {
   webapp_family = "${var.project}-${var.env}-webapp"
 }
 
-# template for task definition
-data template_file webapp_task_definition_raw {
-  template = file("${path.module}/task-definitions/webapp.yaml")
-
-  vars = {
-    environment       = var.env
-    docker_repository = var.webapp_repository_url
-    app_container_port = 80 # TODO
-    aws_region        = data.aws_region.current.name
-    aws_log_group     = local.ecs_log_group
-    app_log_prefix    = "webapp-"
-  }
-}
-
-locals {
-  webapp_task_definition = jsonencode(yamldecode(data.template_file.webapp_task_definition_raw.rendered))
+# ecs clusrter
+resource "aws_ecs_cluster" "webapp" {
+  name = "${local.webapp_family}-cluster"
 }
 
 # task definition for webapp

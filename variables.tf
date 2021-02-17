@@ -41,6 +41,10 @@ variable "subdomain_external_alb" {
   description = "Example: 'webapp_dev' in webapp_dev.example.com"
 }
 
+variable "webapp_health_check_path" {
+  description = "Example: /__healthcheck"
+}
+
 # rds
 variable "rds_name" {
   description = "Name for rds"

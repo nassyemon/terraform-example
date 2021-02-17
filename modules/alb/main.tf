@@ -90,20 +90,20 @@ resource aws_alb_listener external_alb_https {
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = aws_acm_certificate_validation.external_alb.certificate_arn
   default_action {
-    # target_group_arn = "${aws_alb_target_group.external-http.arn}"
-    # type             = "forward"
+    target_group_arn = aws_alb_target_group.external_alb.arn
+    type             = "forward"
 
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "test content"
-      status_code  = "200"
-    }
+    # type = "fixed-response"
+    # fixed_response {
+    #   content_type = "text/plain"
+    #   message_body = "test content"
+    #   status_code  = "200"
+    # }
   }
   
-  lifecycle {
-    ignore_changes = [default_action]
-  }
+  # lifecycle {
+  #   ignore_changes = [default_action]
+  # }
 }
 
 # route53 record
@@ -117,5 +117,29 @@ resource aws_route53_record external_alb {
     zone_id                = aws_alb.external_alb.zone_id
     evaluate_target_health = false
     # evaluate_target_health = true
+  }
+}
+
+# target group
+resource aws_alb_target_group external_alb {
+  name                 = "${local.external_alb_name}-tg"
+  port                 = 80
+  protocol             = "HTTP"
+  vpc_id               = var.vpc_id
+  deregistration_delay = 60 # TODO.
+  target_type = "ip"
+
+  health_check {
+    path     = var.webapp_health_check_path
+    interval = 10
+    healthy_threshold = 5
+    unhealthy_threshold = 2
+    protocol = "HTTP"
+  }
+
+  tags = {
+    Name = local.external_alb_name
+    Env = var.env
+    Project = var.project
   }
 }

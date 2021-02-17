@@ -29,14 +29,11 @@ module "security_group" {
   rds_port = 3306
 }
 
-module "ecs" {
-  source = "./modules/ecs"
-
-  env                    = var.env
-  project                = var.project
-  webapp_repository_url  = local.ecr_webapp.repository_url
+module "log_group" {
+  source   = "./modules/log_group"
+  env      = var.env
+  project  = var.project
 }
-
 
 module "alb" {
   source = "./modules/alb"
@@ -45,9 +42,23 @@ module "alb" {
   project                = var.project
   hosted_zone_id         = var.hosted_zone_id
   hosted_zone_name       = var.hosted_zone_name
+  vpc_id   = local.vpc_id
   subdomain_external_alb = var.subdomain_external_alb
+  webapp_health_check_path      = var.webapp_health_check_path
   public_subnet_ids      = local.public_subnet_ids
   sg_external_alb_ids    = [module.security_group.external_alb_id]
+}
+
+module "ecs" {
+  source = "./modules/ecs"
+
+  env                    = var.env
+  project                = var.project
+  webapp_subnet_ids      = local.webapp_subnet_ids
+  sg_webapp_ids          = [module.security_group.webapp_id]
+  webapp_repository_url  = local.ecr_webapp.repository_url
+  alb_target_group_external_alb_arn = module.alb.target_group_external_alb_arn
+  log_group_ecs_webapp   = module.log_group.ecs_webapp
 }
 
 module "rds" {

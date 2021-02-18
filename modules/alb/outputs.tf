@@ -1,11 +1,11 @@
-output external_alb_cert_arn {
-  value = aws_acm_certificate.external_alb.arn
+output csweb_cert_arn {
+  value = aws_acm_certificate.csweb.arn
 }
 
-output external_alb_arn {
-  value = aws_alb.external_alb.arn
+output csweb_arn {
+  value = aws_alb.csweb.arn
 }
 
-output target_group_external_alb_arn {
-  value = aws_alb_target_group.external_alb.arn
+output target_group_csweb_arn {
+  value = aws_alb_target_group.csweb.arn
 }

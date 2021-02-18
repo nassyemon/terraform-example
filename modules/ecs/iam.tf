@@ -14,7 +14,7 @@ locals {
 })
 }
 
-data template_file webapp_task_policy {
+data template_file ecs_task_policy {
   template = jsonencode(
 {
     "Version": "2012-10-17",
@@ -56,12 +56,12 @@ data template_file ecs_execution_policy {
 }
 
 # task role
-resource aws_iam_policy webapp_task {
-  name = "${local.webapp_family}-webapp-task-policy"
-  description = "task policy for ${local.webapp_family}"
+resource aws_iam_policy ecs_task {
+  name = "${local.csweb_family}-webapp-task-policy"
+  description = "task policy for ${local.csweb_family}"
   path = "/"
 
-  policy = data.template_file.webapp_task_policy.rendered
+  policy = data.template_file.ecs_task_policy.rendered
 }
 
 resource aws_iam_policy ecs_execution {
@@ -73,23 +73,23 @@ resource aws_iam_policy ecs_execution {
 }
 
 # task policy
-resource aws_iam_role webapp_task {
-  name = "${local.webapp_family}-webapp-task-role"
-  description = "task role for ${local.webapp_family}"
+resource aws_iam_role ecs_task {
+  name = "${local.csweb_family}-webapp-task-role"
+  description = "task role for ${local.csweb_family}"
 
   assume_role_policy = local.assume_role_policy_ecs_tasks
 
   tags = {
     Env = var.env
     Project = var.project
-    Policy = aws_iam_policy.webapp_task.name
+    Policy = aws_iam_policy.ecs_task.name
     Management = "Terraform"
   }
 }
 
-resource aws_iam_role_policy_attachment webapp_task {
-  role       = aws_iam_role.webapp_task.name
-  policy_arn = aws_iam_policy.webapp_task.arn
+resource aws_iam_role_policy_attachment ecs_task {
+  role       = aws_iam_role.ecs_task.name
+  policy_arn = aws_iam_policy.ecs_task.arn
 }
 
 

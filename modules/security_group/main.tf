@@ -1,13 +1,13 @@
 locals {
   sg_prefix =  "${var.project}-${var.env}"
-  external_alb_name = "${local.sg_prefix}-external-alb"
-  webapp_name = "${local.sg_prefix}-webapp"
+  alb_csweb_name = "${local.sg_prefix}-alb-csweb"
+  ecs_csweb_name = "${local.sg_prefix}-ecs-csweb"
   rds_name = "${local.sg_prefix}-rds"
 }
 
-resource aws_security_group external_alb {
-    name = local.external_alb_name
-    description = "security group for ${local.external_alb_name}"
+resource aws_security_group alb_csweb {
+    name = local.alb_csweb_name
+    description = "security group for ${local.alb_csweb_name}"
     vpc_id = var.vpc_id
 
     ingress {
@@ -27,13 +27,13 @@ resource aws_security_group external_alb {
     tags = {
       Env = var.env
       Project = var.project
-      Name = local.external_alb_name
+      Name = local.alb_csweb_name
     }
 }
 
-resource aws_security_group webapp {
-    name = local.webapp_name
-    description = "security group for ${local.webapp_name}"
+resource aws_security_group ecs_csweb {
+    name = local.ecs_csweb_name
+    description = "security group for ${local.ecs_csweb_name}"
     vpc_id = var.vpc_id
 
     # http from alb
@@ -41,16 +41,16 @@ resource aws_security_group webapp {
       from_port = 80
       to_port = 80
       protocol = "tcp"
-      security_groups = [aws_security_group.external_alb.id]
+      security_groups = [aws_security_group.alb_csweb.id]
     }
 
-    ingress {
-      from_port = 32768
-      to_port = 61000
-      protocol = "tcp"
-      security_groups = [aws_security_group.external_alb.id]
-    }
-
+    # docker ephemeral ports
+    # ingress {
+    #   from_port = 32768
+    #   to_port = 61000
+    #   protocol = "tcp"
+    #   security_groups = [aws_security_group.alb_csweb.id]
+    # }
 
     # anywhere
     egress {
@@ -63,7 +63,7 @@ resource aws_security_group webapp {
     tags = {
       Env = var.env
       Project = var.project
-      Name = local.webapp_name
+      Name = local.ecs_csweb_name
     }
 }
 
@@ -77,7 +77,7 @@ resource aws_security_group rds {
       from_port = var.rds_port
       to_port = var.rds_port
       protocol = "tcp"
-      security_groups = [aws_security_group.webapp.id]
+      security_groups = [aws_security_group.ecs_csweb.id]
     }
 
     # anywhere

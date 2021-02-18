@@ -37,11 +37,11 @@ variable "hosted_zone_name" {
   description = "Example: example.com"
 }
 
-variable "subdomain_external_alb" {
+variable "subdomain_csweb" {
   description = "Example: 'webapp_dev' in webapp_dev.example.com"
 }
 
-variable "webapp_health_check_path" {
+variable "csweb_app_health_check_path" {
   description = "Example: /__healthcheck"
 }
 

@@ -14,7 +14,7 @@ locals {
     data.terraform_remote_state.global.outputs.production_network
     : data.terraform_remote_state.global.outputs.development_network
   )
-  ecr_webapp          = data.terraform_remote_state.global.outputs.ecr_webapp
+  ecr_csweb_app          = data.terraform_remote_state.global.outputs.ecr_csweb_app
   vpc_id              = local.network.vpc_id
   public_subnet_ids   = local.network.public_subnet_ids
   webapp_subnet_ids   = local.network.webapp_subnet_ids
@@ -43,10 +43,10 @@ module "alb" {
   hosted_zone_id         = var.hosted_zone_id
   hosted_zone_name       = var.hosted_zone_name
   vpc_id   = local.vpc_id
-  subdomain_external_alb = var.subdomain_external_alb
-  webapp_health_check_path      = var.webapp_health_check_path
+  subdomain_csweb = var.subdomain_csweb
+  csweb_app_health_check_path      = var.csweb_app_health_check_path
   public_subnet_ids      = local.public_subnet_ids
-  sg_external_alb_ids    = [module.security_group.external_alb_id]
+  sg_alb_csweb_ids    = [module.security_group.alb_csweb_id]
 }
 
 module "ecs" {
@@ -55,10 +55,10 @@ module "ecs" {
   env                    = var.env
   project                = var.project
   webapp_subnet_ids      = local.webapp_subnet_ids
-  sg_webapp_ids          = [module.security_group.webapp_id]
-  webapp_repository_url  = local.ecr_webapp.repository_url
-  alb_target_group_external_alb_arn = module.alb.target_group_external_alb_arn
-  log_group_ecs_webapp   = module.log_group.ecs_webapp
+  sg_ecs_csweb_ids          = [module.security_group.ecs_csweb_id]
+  csweb_app_repository_url  = local.ecr_csweb_app.repository_url
+  alb_target_group_csweb_arn = module.alb.target_group_csweb_arn
+  log_group_ecs_csweb_app   = module.log_group.ecs_csweb_app
 }
 
 module "rds" {

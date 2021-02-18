@@ -22,9 +22,9 @@ output "disabled" {
 }
 
 # ci/cd
-output "ecr_webapp" {
+output "ecr_csweb_app" {
   value = {
     arn            = module.ecr.webapp_arn
-    repository_url = module.ecr.webapp_repository_url
+    repository_url = module.ecr.csweb_app_repository_url
   }
 }

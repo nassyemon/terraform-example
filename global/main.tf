@@ -13,5 +13,5 @@ module "production_network" {
 
 module "ecr" {
   source                 = "./modules/ecr"
-  webapp_repository_name = var.webapp_repository_name
+  csweb_app_repository_name = var.csweb_app_repository_name
 }

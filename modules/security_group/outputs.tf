@@ -1,9 +1,9 @@
-output external_alb_id {
-  value = aws_security_group.external_alb.id
+output alb_csweb_id {
+  value = aws_security_group.alb_csweb.id
 }
 
-output webapp_id {
-  value = aws_security_group.webapp.id
+output ecs_csweb_id {
+  value = aws_security_group.ecs_csweb.id
 }
 
 output rds_id {

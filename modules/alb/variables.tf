@@ -14,13 +14,13 @@ variable hosted_zone_name {
   description = "Example: example.com"
 }
 
-variable subdomain_external_alb {
-  description = "Example: 'webapp_dev' in webapp_dev.example.com"
+variable subdomain_csweb {
+  description = "Example: 'dev-webapp' in dev-webapp.example.com"
 }
 
-variable sg_external_alb_ids {
+variable sg_alb_csweb_ids {
   type = list
-  description = "List of securty groups attached to external alb"
+  description = "List of securty groups attached to csweb alb"
 }
 
 variable vpc_id {
@@ -32,10 +32,10 @@ variable public_subnet_ids {
   description = "List of ids of database subnet."
 }
 
-variable webapp_health_check_path {
+variable csweb_app_health_check_path {
   description = "Example: /__healthcheck"
 }
 
-# variable external_alb_logs_bucket {
-#   description = "Log bucket to store access logs of external alb."
+# variable csweb_logs_bucket {
+#   description = "Log bucket to store access logs of csweb alb."
 # }

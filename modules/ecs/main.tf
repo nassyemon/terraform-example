@@ -1,17 +1,17 @@
 locals {
-  webapp_family = "${var.project}-${var.env}-webapp"
+  csweb_family = "${var.project}-${var.env}-csweb"
 }
 
 # ecs clusrter
-resource "aws_ecs_cluster" "webapp" {
-  name = "${local.webapp_family}-cluster"
+resource aws_ecs_cluster csweb {
+  name = "${local.csweb_family}-cluster"
 }
 
 # task definition for webapp
-resource aws_ecs_task_definition webapp {
-  family                = local.webapp_family
-  container_definitions = local.webapp_task_definition
-  task_role_arn         = aws_iam_role.webapp_task.arn
+resource aws_ecs_task_definition csweb {
+  family                = local.csweb_family
+  container_definitions = local.csweb_task_definition
+  task_role_arn         = aws_iam_role.ecs_task.arn
   execution_role_arn    = aws_iam_role.ecs_execution.arn
   network_mode = "awsvpc"
   requires_compatibilities = ["FARGATE"]

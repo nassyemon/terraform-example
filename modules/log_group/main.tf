@@ -1,5 +1,5 @@
-resource aws_cloudwatch_log_group ecs_webapp {
-  name = "/${var.project}/${var.env}/ecs/webapp"
+resource aws_cloudwatch_log_group ecs_csweb_app {
+  name = "/${var.project}/${var.env}/ecs/csweb_app"
 
   tags = {
     Env = var.env

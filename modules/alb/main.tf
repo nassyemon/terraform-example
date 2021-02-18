@@ -1,6 +1,6 @@
 locals {
-  external_alb_domain_name = "${var.subdomain_external_alb}.${var.hosted_zone_name}"
-  external_alb_name = "${var.project}-${var.env}-external"
+  csweb_domain_name = "${var.subdomain_csweb}.${var.hosted_zone_name}"
+  alb_csweb_name = "${var.project}-${var.env}-csweb"
 }
 
 data aws_route53_zone hosted {
@@ -8,23 +8,23 @@ data aws_route53_zone hosted {
 }
 
 #acm cert
-resource aws_acm_certificate external_alb {
-  domain_name       = local.external_alb_domain_name
+resource aws_acm_certificate csweb {
+  domain_name       = local.csweb_domain_name
   validation_method = "DNS"
   tags = {
     Env        = var.env
     Project    = var.project
-    Name       = local.external_alb_domain_name
+    Name       = local.csweb_domain_name
   }
 }
 
-resource aws_route53_record external_alb_cert_validation {
+resource aws_route53_record csweb_cert_validation {
   allow_overwrite = true
   zone_id = data.aws_route53_zone.hosted.zone_id
   ttl             = 60
 
   for_each = {
-    for dvo in aws_acm_certificate.external_alb.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.csweb.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
@@ -35,16 +35,16 @@ resource aws_route53_record external_alb_cert_validation {
   type            = each.value.type
 }
 
-resource aws_acm_certificate_validation external_alb {
-  certificate_arn         = aws_acm_certificate.external_alb.arn
-  validation_record_fqdns = values(aws_route53_record.external_alb_cert_validation)[*].fqdn
+resource aws_acm_certificate_validation csweb {
+  certificate_arn         = aws_acm_certificate.csweb.arn
+  validation_record_fqdns = values(aws_route53_record.csweb_cert_validation)[*].fqdn
 }
 
-# external-alb
-resource aws_alb external_alb {
-  name            = local.external_alb_name
+# csweb-alb
+resource aws_alb csweb {
+  name            = local.alb_csweb_name
   subnets         = var.public_subnet_ids
-  security_groups = var.sg_external_alb_ids
+  security_groups = var.sg_alb_csweb_ids
 
   load_balancer_type = "application"
   internal        = false
@@ -55,21 +55,21 @@ resource aws_alb external_alb {
   idle_timeout    = "60"
 
   # access_logs {
-  #   bucket  = var.s3_external_alb_logs_bucket
-  #   prefix  = "external-alb"
+  #   bucket  = var.s3_csweb_logs_bucket
+  #   prefix  = "csweb-alb"
   #   enabled = true
   # }
 
   tags = {
-    Name = local.external_alb_name
+    Name = local.alb_csweb_name
     Env = var.env
     Project = var.project
   }
 }
 
 # http listner (always redirect)
-resource aws_alb_listener external_alb_http {
-  load_balancer_arn = aws_alb.external_alb.arn
+resource aws_alb_listener csweb_http {
+  load_balancer_arn = aws_alb.csweb.arn
   port              = "80"
   protocol          = "HTTP"
   default_action {
@@ -83,14 +83,14 @@ resource aws_alb_listener external_alb_http {
 }
 
 # https listner
-resource aws_alb_listener external_alb_https {
-  load_balancer_arn = aws_alb.external_alb.arn
+resource aws_alb_listener csweb_https {
+  load_balancer_arn = aws_alb.csweb.arn
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = aws_acm_certificate_validation.external_alb.certificate_arn
+  certificate_arn   = aws_acm_certificate_validation.csweb.certificate_arn
   default_action {
-    target_group_arn = aws_alb_target_group.external_alb.arn
+    target_group_arn = aws_alb_target_group.csweb.arn
     type             = "forward"
 
     # type = "fixed-response"
@@ -104,25 +104,26 @@ resource aws_alb_listener external_alb_https {
   # lifecycle {
   #   ignore_changes = [default_action]
   # }
+  depends_on = [aws_alb.csweb]
 }
 
 # route53 record
-resource aws_route53_record external_alb {
+resource aws_route53_record csweb {
   zone_id = data.aws_route53_zone.hosted.zone_id
-  name    = local.external_alb_domain_name
+  name    = local.csweb_domain_name
   type    = "A"
 
   alias {
-    name                   = aws_alb.external_alb.dns_name
-    zone_id                = aws_alb.external_alb.zone_id
+    name                   = aws_alb.csweb.dns_name
+    zone_id                = aws_alb.csweb.zone_id
     evaluate_target_health = false
     # evaluate_target_health = true
   }
 }
 
 # target group
-resource aws_alb_target_group external_alb {
-  name                 = "${local.external_alb_name}-tg"
+resource aws_alb_target_group csweb {
+  name                 = "${local.alb_csweb_name}-tg"
   port                 = 80
   protocol             = "HTTP"
   vpc_id               = var.vpc_id
@@ -130,7 +131,7 @@ resource aws_alb_target_group external_alb {
   target_type = "ip"
 
   health_check {
-    path     = var.webapp_health_check_path
+    path     = var.csweb_app_health_check_path
     protocol = "HTTP"
     port = 80
     interval = 20
@@ -140,7 +141,7 @@ resource aws_alb_target_group external_alb {
   }
 
   tags = {
-    Name = local.external_alb_name
+    Name = local.alb_csweb_name
     Env = var.env
     Project = var.project
   }

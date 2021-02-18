@@ -1,6 +1,6 @@
-output ecs_webapp {
+output ecs_csweb_app {
   value = {
-    arn = aws_cloudwatch_log_group.ecs_webapp.arn
-    name = aws_cloudwatch_log_group.ecs_webapp.name
+    arn = aws_cloudwatch_log_group.ecs_csweb_app.arn
+    name = aws_cloudwatch_log_group.ecs_csweb_app.name
   }
 }

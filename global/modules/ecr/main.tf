@@ -1,5 +1,5 @@
 resource aws_ecr_repository webapp {
-  name                 = var.webapp_repository_name
+  name                 = var.csweb_app_repository_name
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

@@ -25,5 +25,5 @@ output depends_id {
 }
 
 output disabled {
-  value = length(aws_route.webapp_nat_route) > 0 ? false : true
+  value = length(aws_route.private_nat_route) > 0 ? false : true
 }

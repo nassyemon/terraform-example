@@ -14,7 +14,7 @@ resource aws_ssm_parameter username {
 resource aws_secretsmanager_secret password {
   name  = "${local.ssm_path}/password"
   description = "password for ${local.rds_identifier}"
-
+  recovery_window_in_days = 0
   depends_on = [random_password.password]
 }
 

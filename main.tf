@@ -27,6 +27,7 @@ module "security_group" {
   project  = var.project
   vpc_id   = local.vpc_id
   rds_port = 3306
+  webapp_subnet_ids      = local.webapp_subnet_ids
 }
 
 module "log_group" {

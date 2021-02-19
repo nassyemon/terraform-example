@@ -49,7 +49,7 @@ resource aws_alb csweb {
   load_balancer_type = "application"
   internal        = false
   enable_deletion_protection = false
-  enable_http2 = true
+  enable_http2 = false
   ip_address_type = "ipv4"
 
   idle_timeout    = "60"
@@ -133,11 +133,11 @@ resource aws_alb_target_group csweb {
   health_check {
     path     = var.csweb_app_health_check_path
     protocol = "HTTP"
-    port = 80
-    interval = 20
-    timeout = 10
-    healthy_threshold = 2
-    unhealthy_threshold = 10
+    # port = 80
+    interval = 10
+    timeout = 5
+    healthy_threshold = 5
+    unhealthy_threshold = 2
   }
 
   tags = {

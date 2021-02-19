@@ -8,4 +8,5 @@ output csweb_arn {
 
 output target_group_csweb_arn {
   value = aws_alb_target_group.csweb.arn
+  depends_on = [aws_alb.csweb]
 }

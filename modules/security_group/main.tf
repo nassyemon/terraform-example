@@ -5,6 +5,11 @@ locals {
   rds_name = "${local.sg_prefix}-rds"
 }
 
+data "aws_subnet" "webapp_subnet" {
+  id = element(var.webapp_subnet_ids, count.index)
+  count         = length(var.webapp_subnet_ids)
+}
+
 resource aws_security_group alb_csweb {
     name = local.alb_csweb_name
     description = "security group for ${local.alb_csweb_name}"
@@ -22,6 +27,13 @@ resource aws_security_group alb_csweb {
       to_port = 80
       protocol = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    egress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = data.aws_subnet.webapp_subnet.*.cidr_block
     }
 
     tags = {

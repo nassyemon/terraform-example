@@ -13,3 +13,7 @@ variable vpc_id {
  variable rds_port {
    description = "rds port (3306 for mysql, 5432 for postgres)"
  }
+
+variable webapp_subnet_ids {
+  description = "List of ids of public subnet."
+}

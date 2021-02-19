@@ -8,7 +8,7 @@ resource aws_ecs_service csweb {
   deployment_minimum_healthy_percent = 50
   deployment_maximum_percent = 200
   # This may need to be adjusted if the container takes a while to start up
-  health_check_grace_period_seconds = 120
+  # health_check_grace_period_seconds = 120
   launch_type = "FARGATE"
 
   network_configuration {
@@ -22,8 +22,8 @@ resource aws_ecs_service csweb {
     container_name = "app"
     container_port = 80
   }
-
   # lifecycle {
   #   ignore_changes = [task_definition]
   # }
+  depends_on = [var.alb_target_group_csweb_arn]
 }

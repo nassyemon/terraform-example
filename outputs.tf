@@ -9,3 +9,7 @@ output "rds_ssm_username_arn" {
 output "rds_secrets_password_arn" {
   value = module.rds.secrets_password_arn
 }
+
+output "operation_server_id" {
+  value = module.operation_server.id
+}

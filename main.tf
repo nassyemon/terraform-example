@@ -81,3 +81,12 @@ module "rds" {
 
   disabled = var.disabled
 }
+
+module "operation_server" {
+  source = "./modules/operation_server"
+  env                    = var.env
+  project                = var.project
+  public_subnet_id = local.network.public_subnet_ids[0]
+  sg_operation_server_ids = [module.security_group.operation_server_id]
+  operator_users = var.external_operator_users # TODO
+}

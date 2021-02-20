@@ -9,3 +9,7 @@ output ecs_csweb_id {
 output rds_id {
   value = aws_security_group.rds.id
 }
+
+output operation_server_id {
+  value = aws_security_group.operation_server.id
+}

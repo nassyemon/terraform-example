@@ -58,3 +58,10 @@ variable "rds_instance_params" {
   type        = map(any)
   description = "instance_class, storage_class, allocated_storage ..."
 }
+
+# operation
+
+variable "external_operator_users" {
+  type = list
+  description = "list of operator users defined outside terraform."
+}

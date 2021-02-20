@@ -49,6 +49,11 @@ output:
 output-json:
 	terraform output -json $(RUN_ARGS)
 
+.PHONY: connect-opsrv
+ connect-opsrv:
+	$(eval SERVER_ID = $(shell sh -c "terraform output operation_server_id"))
+	mssh $(SERVER_ID)
+
 .PHONY: test
 test:
 	echo $${GLOBAL_BE_BUCKET}

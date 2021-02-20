@@ -9,6 +9,7 @@ module "production_network" {
   destination_cidr_block = var.destination_cidr_block
   disabled               = var.disabled
   network_env            = "prd"
+  use_single_nat_gateway = true
 }
 
 module "ecr" {

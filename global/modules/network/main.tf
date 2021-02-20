@@ -45,6 +45,7 @@ module nat {
   subnet_count = length(var.public_subnet_cidrs)
   availability_zones = var.availability_zones
   disabled = var.disabled
+  use_single_nat_gateway = var.use_single_nat_gateway
 }
 
 
@@ -92,7 +93,7 @@ resource aws_route public_igw_route {
 
 resource aws_route private_nat_route {
   route_table_id         = element(aws_route_table.private_subnet.*.id, count.index)
-  nat_gateway_id         = element(module.nat.ids, count.index)
+  nat_gateway_id         = element(module.nat.ids, var.use_single_nat_gateway ? 0 : count.index)
   destination_cidr_block = var.destination_cidr_block
 
   count                  = module.nat.disabled ? 0 : length(var.availability_zones)

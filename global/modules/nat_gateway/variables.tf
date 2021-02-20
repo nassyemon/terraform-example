@@ -19,3 +19,7 @@ variable availability_zones {
   type        = list
   description = "Example: ap-northeast-1a and ap-northeast-1c"
 }
+
+variable use_single_nat_gateway {
+  description = "Set true to create only one nat gateway, otherwise create nat gateway on each az."
+}

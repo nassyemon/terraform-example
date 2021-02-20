@@ -37,3 +37,7 @@ variable public_subnet_cidrs {
   type        = list
   description = "List of cidrs for public subnet. Length must eqauls to that of availability_zones."
 }
+
+variable use_single_nat_gateway {
+  description = "Set true to create only one nat gateway, otherwise create nat gateway on each az."
+}

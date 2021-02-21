@@ -54,7 +54,7 @@ resource aws_route_table public_subnet {
   vpc_id = module.vpc.id
   tags = {
     Name        = "${var.network_env}-public"
-    Environment = var.network_env
+    NetworkEnv = var.network_env
   }
 }
 
@@ -62,7 +62,7 @@ resource aws_route_table private_subnet {
   vpc_id = module.vpc.id
   tags = {
     Name        = "${var.network_env}-private-${element(var.availability_zones, count.index)}"
-    Environment = var.network_env
+    NetworkEnv = var.network_env
   }
   count  = length(var.availability_zones)
 }

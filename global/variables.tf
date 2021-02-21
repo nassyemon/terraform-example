@@ -38,3 +38,8 @@ variable "destination_cidr_block" {
 variable "csweb_app_repository_name" {
   description = "Name of ECR repository"
 }
+
+variable "external_operator_users_prd" {
+  type        = list(any)
+  description = "list of operator users defined outside terraform."
+}

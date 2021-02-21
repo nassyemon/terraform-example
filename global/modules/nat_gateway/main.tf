@@ -6,6 +6,7 @@ resource aws_nat_gateway nat {
   subnet_id     = element(var.subnet_ids, count.index)
   tags = {
     Name = "${var.network_env}-nat-${element(var.availability_zones, count.index)}"
+    NetworkEnv = var.network_env
   }
   count         = var.disabled ? 0 : (var.use_single_nat_gateway ? 1 : var.subnet_count)
 }

@@ -15,3 +15,5 @@ database_subnet_cidrs_prd = ["172.30.8.0/23", "172.30.10.0/23"]
 public_subnet_cidrs_prd = ["172.30.16.0/22", "172.30.20.0/22"]
 
 csweb_app_repository_name = "webapp"
+
+external_operator_users_prd = ["takanashi"]

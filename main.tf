@@ -1,26 +1,3 @@
-data "terraform_remote_state" "global" {
-  backend = "s3"
-
-  config = {
-    bucket = var.global_be_bucket
-    key    = var.global_be_key
-    region = var.global_be_region
-  }
-}
-
-locals {
-  network = (
-    var.network_env == "production_network" ?
-    data.terraform_remote_state.global.outputs.production_network
-    : data.terraform_remote_state.global.outputs.development_network
-  )
-  ecr_csweb_app          = data.terraform_remote_state.global.outputs.ecr_csweb_app
-  vpc_id              = local.network.vpc_id
-  public_subnet_ids   = local.network.public_subnet_ids
-  webapp_subnet_ids   = local.network.webapp_subnet_ids
-  database_subnet_ids = local.network.database_subnet_ids
-}
-
 module "security_group" {
   source   = "./modules/security_group"
   env      = var.env
@@ -80,13 +57,4 @@ module "rds" {
   maintenance_window     = var.rds_instance_params.maintenance_window
 
   disabled = var.disabled
-}
-
-module "operation_server" {
-  source = "./modules/operation_server"
-  env                    = var.env
-  project                = var.project
-  public_subnet_id = local.network.public_subnet_ids[0]
-  sg_operation_server_ids = [module.security_group.operation_server_id]
-  operator_users = var.external_operator_users # TODO
 }

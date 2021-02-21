@@ -44,8 +44,17 @@ fmt:
 
 .PHONY: output
 output:
-	terraform output $(RUN_ARGS)
+	@terraform output $(RUN_ARGS)
 
 .PHONY: output-json
 output-json:
-	terraform output -json $(RUN_ARGS)
+	@terraform output -json $(RUN_ARGS)
+
+.PHONY: connect-prd-opsrv
+connect-prd-opsrv:
+	$(eval SERVER_ID = $(shell sh -c "terraform output -json production_operation_server | jq '.instance_id'"))
+	mssh $(SERVER_ID)
+
+.PHONY: test
+test:
+	echo $${GLOBAL_BE_BUCKET}

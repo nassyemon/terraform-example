@@ -1,9 +1,8 @@
 locals {
-  operation_server_name =  "${var.project}-${var.env}-operation-server"
+  operation_server_name =  "${var.network_env}-operation-server"
   instance_connect_name = "${local.operation_server_name}-instance-connect"
   tags = {
-    Env = var.env
-    Project = var.project
+    NetworkEnv = var.network_env
   }
 }
 
@@ -29,7 +28,7 @@ resource aws_instance operation_server {
     delete_on_termination = true
   }
 
-  vpc_security_group_ids = var.sg_operation_server_ids
+  vpc_security_group_ids = [aws_security_group.operation_server.id]
 
   iam_instance_profile = aws_iam_instance_profile.instance_connect.name
 

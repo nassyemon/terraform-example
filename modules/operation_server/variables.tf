@@ -1,18 +1,17 @@
-variable project {
-  description = "project name. Example: foo-bar"
+variable network_env {
+  description = "prd or dev."
 }
 
-variable env {
-  description = "dev/stg/prd"
+variable vpc_id {
+  description = "VPC id to place subnet into"
+}
+
+variable aws_vpc_cidr {
+  description = "VPC cidr block. Example: 10.0.0.0/16"
 }
 
 variable public_subnet_id {
   description = "Public subnet id to create operation server instance."
-}
-
-variable sg_operation_server_ids {
-  type = list
-  description = "List of securty groups attached to operation server instance."
 }
 
 variable operator_users {

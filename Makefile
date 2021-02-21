@@ -43,11 +43,11 @@ fmt:
 
 .PHONY: output
 output:
-	terraform output $(RUN_ARGS)
+	@terraform output $(RUN_ARGS)
 
 .PHONY: output-json
 output-json:
-	terraform output -json $(RUN_ARGS)
+	@terraform output -json $(RUN_ARGS)
 
 .PHONY: connect-opsrv
  connect-opsrv:

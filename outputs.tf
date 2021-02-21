@@ -11,5 +11,5 @@ output "rds_secrets_password_arn" {
 }
 
 output "operation_server_id" {
-  value = module.operation_server.id
+  value = local.operation_server.instance_id
 }

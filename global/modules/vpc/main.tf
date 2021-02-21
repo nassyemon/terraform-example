@@ -6,6 +6,7 @@ resource aws_vpc vpc {
 
   tags = {
     Name = "${var.network_env}-${var.aws_vpc_tags_name}"
+    NetworkEnv = var.network_env
   }
 }
 
@@ -13,6 +14,6 @@ resource aws_internet_gateway vpc {
   vpc_id = aws_vpc.vpc.id
   tags = {
     Name = "${var.network_env}-${var.aws_vpc_tags_name}-igw"
-    Environment = var.network_env
+    NetworkEnv = var.network_env
   }
 }

@@ -9,6 +9,6 @@ resource aws_subnet subnet {
 
   tags = {
     Name        = "${var.network_env}-${var.name}-${element(var.availability_zones, count.index)}"
-    Environment = var.network_env
+    NetworkEnv = var.network_env
   }
 }

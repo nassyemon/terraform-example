@@ -14,6 +14,6 @@ resource aws_security_group operation_server {
     from_port = 0
     to_port = 0
     protocol = "-1"
-    cidr_blocks = [var.aws_vpc_cidr]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }

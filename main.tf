@@ -5,6 +5,7 @@ module "security_group" {
   vpc_id            = local.vpc_id
   rds_port          = 3306
   webapp_subnet_ids = local.webapp_subnet_ids
+  sg_operation_server_id = local.operation_server.security_group_id
 }
 
 module "log_group" {

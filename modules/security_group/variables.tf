@@ -17,3 +17,7 @@ variable vpc_id {
 variable webapp_subnet_ids {
   description = "List of ids of public subnet."
 }
+
+variable sg_operation_server_id {
+  description = "Security group id of operation server"
+}

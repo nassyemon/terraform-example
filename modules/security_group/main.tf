@@ -53,7 +53,10 @@ resource aws_security_group ecs_csweb {
       from_port = 80
       to_port = 80
       protocol = "tcp"
-      security_groups = [aws_security_group.alb_csweb.id]
+      security_groups = [
+        var.sg_operation_server_id,
+        aws_security_group.alb_csweb.id,
+      ]
     }
 
     # docker ephemeral ports
@@ -89,7 +92,10 @@ resource aws_security_group rds {
       from_port = var.rds_port
       to_port = var.rds_port
       protocol = "tcp"
-      security_groups = [aws_security_group.ecs_csweb.id]
+      security_groups = [
+        var.sg_operation_server_id,
+        aws_security_group.ecs_csweb.id,
+      ]
     }
 
     # anywhere

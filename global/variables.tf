@@ -43,3 +43,7 @@ variable "external_operator_users_prd" {
   type        = list(any)
   description = "list of operator users defined outside terraform."
 }
+
+variable "operation_server_username" {
+  description = "Username of operation server. Example: ubuntu"
+}

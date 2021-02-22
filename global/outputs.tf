@@ -55,3 +55,7 @@ output "ecr_csweb_app" {
     repository_url = module.ecr.csweb_app_repository_url
   }
 }
+
+output "operation_server_username" {
+  value = var.operation_server_username
+}

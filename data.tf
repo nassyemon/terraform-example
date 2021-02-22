@@ -20,6 +20,7 @@ locals {
     : data.terraform_remote_state.global.outputs.development_operation_server
   )
   ecr_csweb_app       = data.terraform_remote_state.global.outputs.ecr_csweb_app
+  operation_server_username       = data.terraform_remote_state.global.outputs.operation_server_username
   vpc_id              = local.network.vpc_id
   public_subnet_ids   = local.network.public_subnet_ids
   webapp_subnet_ids   = local.network.webapp_subnet_ids

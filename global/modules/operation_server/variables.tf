@@ -18,3 +18,7 @@ variable operator_users {
   type = list
   description = "List of users (name) to whom instance connect policy will be attatched."
 }
+
+variable "os_username" {
+  description = "Username of operation server. Example: ubuntu"
+}

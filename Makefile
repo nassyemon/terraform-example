@@ -51,8 +51,9 @@ output-json:
 
 .PHONY: connect-opsrv
  connect-opsrv:
+	$(eval USERNAME = $(shell sh -c "terraform output -raw operation_server_username"))
 	$(eval SERVER_ID = $(shell sh -c "terraform output operation_server_id"))
-	mssh $(SERVER_ID)
+	mssh $(USERNAME)@$(SERVER_ID)
 
 .PHONY: test
 test:

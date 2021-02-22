@@ -8,12 +8,18 @@ locals {
 
 data aws_ami operation_server {
   most_recent = true
-  owners = ["amazon"]
 
   filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm-2.0.20190618-x86_64-ebs"]
+      name   = "name"
+      values = ["ubuntu/images/hvm-ssd/ubuntu-groovy-20.10-amd64-server-*"]
   }
+
+  filter {
+      name = "virtualization-type"
+      values = ["hvm"]
+  }
+
+    owners = ["099720109477"]
 }
 
 resource aws_instance operation_server {
@@ -37,7 +43,8 @@ resource aws_instance operation_server {
 
   user_data = <<EOF
 #!/bin/bash
-yum update -y -q
-yum install ec2-instance-connect
+apt-get -y update
+apt-get -y upgrade
+apt-get -y install ec2-instance-connect
 EOF
 }

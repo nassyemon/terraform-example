@@ -13,3 +13,7 @@ output "rds_secrets_password_arn" {
 output "operation_server_id" {
   value = local.operation_server.instance_id
 }
+
+output "operation_server_username" {
+  value = local.operation_server_username
+}

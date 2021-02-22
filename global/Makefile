@@ -52,8 +52,9 @@ output-json:
 
 .PHONY: connect-prd-opsrv
 connect-prd-opsrv:
+	$(eval USERNAME = $(shell sh -c "terraform output -raw operation_server_username"))
 	$(eval SERVER_ID = $(shell sh -c "terraform output -json production_operation_server | jq '.instance_id'"))
-	mssh $(SERVER_ID)
+	mssh $(USERNAME)@$(SERVER_ID)
 
 .PHONY: test
 test:

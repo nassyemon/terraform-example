@@ -1,5 +1,5 @@
-
-resource aws_iam_role instance_connect {
+# instance profile
+resource aws_iam_role operation_server {
   name        = local.instance_connect_name
   description = "privileges for the instance-connect for ${local.operation_server_name}"
 
@@ -18,16 +18,17 @@ resource aws_iam_role instance_connect {
 })
 }
 
-resource aws_iam_role_policy_attachment instance_connect {
-  role       = aws_iam_role.instance_connect.id
+resource aws_iam_role_policy_attachment operation_server {
+  role       = aws_iam_role.operation_server.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
 }
 
-resource aws_iam_instance_profile instance_connect {
-  name = "${local.operation_server_name}-instance-connect"
-  role = aws_iam_role.instance_connect.id
+resource aws_iam_instance_profile operation_server {
+  name = "${local.operation_server_name}-instance-profile"
+  role = aws_iam_role.operation_server.id
 }
 
+# instance connect
 resource aws_iam_policy instance_connect {
   name        = local.instance_connect_name
   path        = "/"

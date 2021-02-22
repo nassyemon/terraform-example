@@ -30,7 +30,7 @@ resource aws_instance operation_server {
 
   vpc_security_group_ids = [aws_security_group.operation_server.id]
 
-  iam_instance_profile = aws_iam_instance_profile.instance_connect.name
+  iam_instance_profile = aws_iam_instance_profile.operation_server.name
 
   tags        = merge({ Name = local.operation_server_name }, local.tags)
   volume_tags = merge({ Name = local.operation_server_name }, local.tags)

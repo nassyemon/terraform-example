@@ -55,7 +55,7 @@ data template_file ecs_execution_policy {
   }
 }
 
-# task role
+# task policy
 resource aws_iam_policy ecs_task {
   name = "${local.csweb_family}-webapp-task-policy"
   description = "task policy for ${local.csweb_family}"
@@ -72,7 +72,7 @@ resource aws_iam_policy ecs_execution {
   policy = data.template_file.ecs_execution_policy.rendered
 }
 
-# task policy
+# task role
 resource aws_iam_role ecs_task {
   name = "${local.csweb_family}-webapp-task-role"
   description = "task role for ${local.csweb_family}"
@@ -88,7 +88,7 @@ resource aws_iam_role ecs_task {
 }
 
 resource aws_iam_role_policy_attachment ecs_task {
-  role       = aws_iam_role.ecs_task.name
+  role       = aws_iam_role.ecs_task.id
   policy_arn = aws_iam_policy.ecs_task.arn
 }
 
@@ -108,11 +108,11 @@ resource aws_iam_role ecs_execution {
 }
 
 resource aws_iam_role_policy_attachment ecs_execution_policy {
-  role       = aws_iam_role.ecs_execution.name
+  role       = aws_iam_role.ecs_execution.id
   policy_arn = aws_iam_policy.ecs_execution.arn
 }
 
 resource aws_iam_role_policy_attachment ecs_execution_managed_policy {
-  role       = aws_iam_role.ecs_execution.name
+  role       = aws_iam_role.ecs_execution.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }

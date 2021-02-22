@@ -1,15 +1,21 @@
 module "security_group" {
-  source            = "./modules/security_group"
-  env               = var.env
-  project           = var.project
-  vpc_id            = local.vpc_id
-  rds_port          = 3306
-  webapp_subnet_ids = local.webapp_subnet_ids
+  source                 = "./modules/security_group"
+  env                    = var.env
+  project                = var.project
+  vpc_id                 = local.vpc_id
+  rds_port               = 3306
+  webapp_subnet_ids      = local.webapp_subnet_ids
   sg_operation_server_id = local.operation_server.security_group_id
 }
 
 module "log_group" {
   source  = "./modules/log_group"
+  env     = var.env
+  project = var.project
+}
+
+module "s3" {
+  source  = "./modules/s3"
   env     = var.env
   project = var.project
 }
@@ -58,4 +64,12 @@ module "rds" {
   maintenance_window     = var.rds_instance_params.maintenance_window
 
   disabled = var.disabled
+}
+
+module operation_server {
+  source = "./modules/operation_server"
+  env                    = var.env
+  project                = var.project
+  iam_role_id = local.operation_server.iam_role_id
+  s3_provisioning_bucket_arn = module.s3.provisioning_bucket_arn
 }

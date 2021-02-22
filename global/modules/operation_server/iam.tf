@@ -1,6 +1,6 @@
 # instance profile
 resource aws_iam_role operation_server {
-  name        = local.instance_connect_name
+  name        = "${local.operation_server_name}-role"
   description = "privileges for the instance-connect for ${local.operation_server_name}"
 
   assume_role_policy = jsonencode(
@@ -20,7 +20,7 @@ resource aws_iam_role operation_server {
 
 resource aws_iam_role_policy_attachment operation_server {
   role       = aws_iam_role.operation_server.id
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMManagedInstanceCore"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource aws_iam_instance_profile operation_server {

@@ -20,7 +20,7 @@ resource aws_iam_role operation_server {
 
 resource aws_iam_role_policy_attachment operation_server {
   role       = aws_iam_role.operation_server.id
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMManagedInstanceCore"
 }
 
 resource aws_iam_instance_profile operation_server {

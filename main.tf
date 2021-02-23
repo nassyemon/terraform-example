@@ -66,10 +66,10 @@ module "rds" {
   disabled = var.disabled
 }
 
-module operation_server {
-  source = "./modules/operation_server"
-  env                    = var.env
-  project                = var.project
-  iam_role_id = local.operation_server.iam_role_id
+module "operation_server" {
+  source                     = "./modules/operation_server"
+  env                        = var.env
+  project                    = var.project
+  iam_role_id                = local.operation_server.iam_role_id
   s3_provisioning_bucket_arn = module.s3.provisioning_bucket_arn
 }

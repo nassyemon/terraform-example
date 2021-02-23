@@ -1,7 +1,7 @@
 locals {
-  production_network = module.production_network
-  development_network = module.production_network
-  production_operation_server = module.production_operation_server
+  production_network           = module.production_network
+  development_network          = module.production_network
+  production_operation_server  = module.production_operation_server
   development_operation_server = module.production_operation_server
 }
 
@@ -33,18 +33,20 @@ output "disabled" {
 # operation server
 output "production_operation_server" {
   value = {
-    instance_id       = local.production_operation_server.id
-    security_group_id = local.production_operation_server.security_group_id
-    iam_role_id = local.production_operation_server.iam_role_id
+    instance_id              = local.production_operation_server.id
+    security_group_id        = local.production_operation_server.security_group_id
+    iam_role_id              = local.production_operation_server.iam_role_id
+    last_provision_timestamp = local.production_operation_server.last_provision_timestamp
   }
 }
 
 output "development_operation_server" {
   # dummy
   value = {
-    instance_id       = local.development_operation_server.id
-    security_group_id = local.development_operation_server.security_group_id
-    iam_role_id = local.development_operation_server.iam_role_id
+    instance_id              = local.development_operation_server.id
+    security_group_id        = local.development_operation_server.security_group_id
+    iam_role_id              = local.development_operation_server.iam_role_id
+    last_provision_timestamp = local.development_operation_server.last_provision_timestamp
   }
 }
 

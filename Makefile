@@ -15,6 +15,7 @@ endif
 
 .PHONY: init
 init:
+	mkdir -p .temp
 	terraform init -reconfigure --backend-config="bucket=$${BE_BUCKET}" --backend-config="key=$${BE_KEY}" --backend-config="region=$${BE_REGION}"
 
 .PHONY: plan

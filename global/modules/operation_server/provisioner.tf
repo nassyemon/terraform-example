@@ -39,9 +39,7 @@ resource null_resource provision {
     previous = null_resource.put_ssh_key.id
   }
   provisioner "remote-exec" {
-    inline = [
-      "ls -la",
-    ]
+    scripts = [for file in fileset(path.module, "scripts/*.sh"): "${path.module}/${file}"]
   }
 
   connection {

@@ -29,8 +29,6 @@ aws ec2-instance-connect send-ssh-public-key \
 --instance-os-user ${local.username} \
 --ssh-public-key file://${local.ssh_key_name}.pub
 
-ssh -i ${local.ssh_key_name} ${local.username}@${local.public_ip}
-
 EOT
     working_dir = "${path.root}/.temp"
   }

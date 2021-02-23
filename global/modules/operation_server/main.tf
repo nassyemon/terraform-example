@@ -43,8 +43,9 @@ resource aws_instance operation_server {
 
   user_data = <<EOF
 #!/bin/bash
-apt-get -y update
-apt-get -y upgrade
-apt-get -y install ec2-instance-connect
+apt -y update
+apt -y upgrade
+apt -y install ec2-instance-connect
+apt -y install python
 EOF
 }

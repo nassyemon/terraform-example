@@ -1,6 +1,7 @@
 data aws_region current {}
 
 locals {
+  scripts_dir = "${path.module}/scripts"
   username = var.os_username
   instance_id = aws_instance.operation_server.id
   ssh_key_name_prefix = "${local.instance_id}-ssh"
@@ -8,7 +9,7 @@ locals {
   public_ip = aws_instance.operation_server.public_ip
   availability_zone = aws_instance.operation_server.availability_zone
 
-  scripts = [for file in fileset(path.module, "scripts/*.sh"): "${path.module}/${file}"]
+  scripts = [for file in fileset(local.scripts_dir, "*.sh"): "${local.scripts_dir}/${file}"]
   hash_scripts = md5(join("-", [for filepath in local.scripts: filemd5(filepath)]))
 }
 

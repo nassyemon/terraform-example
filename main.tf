@@ -72,4 +72,6 @@ module "operation_server" {
   project                    = var.project
   iam_role_id                = local.operation_server.iam_role_id
   s3_provisioning_bucket_arn = module.s3.provisioning_bucket_arn
+  os_username                = local.operation_server_username
+  instance_id                = local.operation_server.instance_id
 }

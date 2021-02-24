@@ -47,20 +47,3 @@ variable "external_operator_users_prd" {
 variable "operation_server_username" {
   description = "Username of operation server. Example: ubuntu"
 }
-
-variable "operation_server_force_provision" {
-  default     = false
-  description = "True to always run provision on operation server."
-}
-
-variable "be_bucket" {
-  description = "backend s3 bucket name."
-}
-
-variable "be_key" {
-  description = "backend s3 bucket object key."
-}
-
-variable "be_region" {
-  description = "backend region."
-}

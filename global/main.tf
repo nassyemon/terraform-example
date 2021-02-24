@@ -20,8 +20,6 @@ module "production_operation_server" {
   public_subnet_id         = module.production_network.public_subnet_ids[0]
   operator_users           = var.external_operator_users_prd # TODO
   os_username              = var.operation_server_username
-  force_provision          = var.operation_server_force_provision
-  last_provision_timestamp = local.production_operation_server_last_provision_timestamp
 }
 
 module "ecr" {

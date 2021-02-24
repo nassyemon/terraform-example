@@ -5,7 +5,6 @@ BE_KEY := $(shell env ${ENVS} sh -c 'echo $$BE_KEY')
 BE_REGION := $(shell env ${ENVS} sh -c 'echo $$BE_REGION')
 
 VAR_FILE_ARGS := -var-file ../env/global/main.tfvars
-TFVAR_ENVS := TF_VAR_be_bucket=$(BE_BUCKET) TF_VAR_be_key=$(BE_KEY) TF_VAR_be_region=$(BE_REGION)
 
 # For commands that require additional arguments."
 ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))
@@ -22,15 +21,11 @@ init:
 
 .PHONY: plan
 plan:
-	$(TFVAR_ENVS) terraform plan ${VAR_FILE_ARGS}
+	terraform plan ${VAR_FILE_ARGS}
 
 .PHONY: apply
 apply:
-	$(TFVAR_ENVS) terraform apply ${VAR_FILE_ARGS}
-
-.PHONY: apply-force-provision
-apply-force-provision:
-	TF_VAR_operation_server_force_provision=true make apply
+	terraform apply ${VAR_FILE_ARGS}
 
 .PHONY: plan-disable
 plan-disable:

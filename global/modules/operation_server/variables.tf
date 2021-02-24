@@ -22,11 +22,3 @@ variable operator_users {
 variable "os_username" {
   description = "Username of operation server. Example: ubuntu"
 }
-
-variable "force_provision" {
-  description = "True to always run provision."
-}
-
-variable "last_provision_timestamp" {
-  description = "Timestamp operation server is provisioned last time."
-}

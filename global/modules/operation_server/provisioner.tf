@@ -7,12 +7,14 @@ locals {
   ssh_key_name = "${local.ssh_key_name_prefix}-${timestamp()}"
   public_ip = aws_instance.operation_server.public_ip
   availability_zone = aws_instance.operation_server.availability_zone
-  last_provision_timestamp = var.last_provision_timestamp
+
+  scripts = [for file in fileset(path.module, "scripts/*.sh"): "${path.module}/${file}"]
+  hash_scripts = md5(join("-", [for filepath in local.scripts: filemd5(filepath)]))
 }
 
 resource null_resource put_ssh_key {
   triggers = {
-    timestamp = var.force_provision ? timestamp() : coalesce(local.last_provision_timestamp, timestamp())
+    hash = local.hash_scripts,
     instance_id = local.instance_id
   }
 
@@ -39,7 +41,7 @@ resource null_resource provision {
     previous = null_resource.put_ssh_key.id
   }
   provisioner "remote-exec" {
-    scripts = [for file in fileset(path.module, "scripts/*.sh"): "${path.module}/${file}"]
+    scripts = local.scripts
   }
 
   connection {

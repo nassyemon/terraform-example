@@ -18,15 +18,15 @@ locals {
   templates  = [for filepath in fileset(local.templates_dir, "**") : "${local.templates_dir}/${filepath}"]
   hash_files = md5(join("-", [for filepath in concat(local.files, local.templates) : filemd5(filepath)]))
   template_vars = {
-    aws_region               = data.aws_region.current.name,
-    rds_identifier           = var.rds_identifier
-    env                      = var.env
-    endpoint             = var.rds_endpoint
-    root_username             = var.rds_username
-    root_password_secrets_arn = var.rds_password_secrets_arn
-    appdb_username          = var.rds_appdb_username
-    appdb_name          = var.rds_appdb_name
-    appdb_username_ssm_path      = "${var.ssm_base_path}/rds/appdb_username"
+    aws_region                       = data.aws_region.current.name,
+    rds_identifier                   = var.rds_identifier
+    env                              = var.env
+    endpoint                         = var.rds_endpoint
+    root_username                    = var.rds_username
+    root_password_secrets_arn        = var.rds_password_secrets_arn
+    appdb_username                   = var.rds_appdb_username
+    appdb_name                       = var.rds_appdb_name
+    appdb_username_ssm_path          = "${var.ssm_base_path}/rds/appdb_username"
     appdb_user_password_secrets_path = "${var.ssm_base_path}/rds/appdb_user_password"
   }
 }
@@ -124,7 +124,7 @@ resource "null_resource" "upload_files" {
     type        = "ssh"
     host        = local.public_ip
     user        = local.username
-    private_key = try(file("${path.root}/.temp/${local.ssh_key_name}"),null)
+    private_key = try(file("${path.root}/.temp/${local.ssh_key_name}"), null)
   }
 
   depends_on = [null_resource.put_ssh_key]

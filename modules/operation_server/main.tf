@@ -6,7 +6,7 @@ output "account_id" {
 }
 
 locals {
-  region_account_id = "${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
+  region_account_id     = "${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
   operation_server_name = "${var.project}-${var.env}-operation-server"
 }
 
@@ -45,8 +45,8 @@ data "template_file" "operation_server" {
 
   vars = {
     provisioning_bucket_arn = var.s3_provisioning_bucket_arn
-    ssm_resource_arn =  "arn:aws:ssm:${local.region_account_id}:parameter${var.ssm_base_path}/*"
-    secrets_resource_arn = "arn:aws:secretsmanager:${local.region_account_id}:secret:${var.ssm_base_path}/*"
+    ssm_resource_arn        = "arn:aws:ssm:${local.region_account_id}:parameter${var.ssm_base_path}/*"
+    secrets_resource_arn    = "arn:aws:secretsmanager:${local.region_account_id}:secret:${var.ssm_base_path}/*"
   }
 }
 

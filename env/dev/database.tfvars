@@ -2,7 +2,7 @@ rds_name = "rdsdev"
 
 rds_username = "takanashi"
 
-rds_appdb_name = "appdb"
+rds_appdb_name     = "appdb"
 rds_appdb_username = "appdbuser"
 
 rds_instance_params = {

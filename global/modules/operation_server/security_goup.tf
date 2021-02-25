@@ -1,7 +1,7 @@
-resource aws_security_group operation_server {
-  name = local.operation_server_name
+resource "aws_security_group" "operation_server" {
+  name        = local.operation_server_name
   description = "security group for ${local.operation_server_name}"
-  vpc_id = var.vpc_id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22
@@ -11,9 +11,9 @@ resource aws_security_group operation_server {
   }
 
   egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }

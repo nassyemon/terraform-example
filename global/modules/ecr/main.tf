@@ -1,4 +1,4 @@
-resource aws_ecr_repository webapp {
+resource "aws_ecr_repository" "webapp" {
   name                 = var.csweb_app_repository_name
   image_tag_mutability = "MUTABLE"
 

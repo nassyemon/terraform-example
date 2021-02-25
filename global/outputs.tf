@@ -33,18 +33,18 @@ output "disabled" {
 # operation server
 output "production_operation_server" {
   value = {
-    instance_id              = local.production_operation_server.id
-    security_group_id        = local.production_operation_server.security_group_id
-    iam_role_id              = local.production_operation_server.iam_role_id
+    instance_id       = local.production_operation_server.id
+    security_group_id = local.production_operation_server.security_group_id
+    iam_role_id       = local.production_operation_server.iam_role_id
   }
 }
 
 output "development_operation_server" {
   # dummy
   value = {
-    instance_id              = local.development_operation_server.id
-    security_group_id        = local.development_operation_server.security_group_id
-    iam_role_id              = local.development_operation_server.iam_role_id
+    instance_id       = local.development_operation_server.id
+    security_group_id = local.development_operation_server.security_group_id
+    iam_role_id       = local.development_operation_server.iam_role_id
   }
 }
 

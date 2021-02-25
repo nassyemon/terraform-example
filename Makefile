@@ -26,6 +26,10 @@ plan:
 apply:
 	terraform apply ${VAR_FILE_ARGS}
 
+.PHONY: apply-yes
+apply-yes:
+	terraform apply -auto-approve ${VAR_FILE_ARGS}
+
 .PHONY: plan-disable
 plan-disable:
 	TF_VAR_disabled=true make plan
@@ -40,7 +44,7 @@ destroy:
 
 .PHONY: fmt
 fmt:
-	terraform fmt
+	terraform fmt -recursive
 
 .PHONY: output
 output:

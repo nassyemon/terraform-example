@@ -1,57 +1,61 @@
-variable project {
+variable "project" {
   description = "project name. Example: foo-bar"
 }
 
-variable env {
+variable "env" {
   description = "dev/stg/prd"
 }
 
-variable disabled {
+variable "ssm_base_path" {
+  description = "SSM & Secrets manager base path."
+}
+
+variable "disabled" {
   description = "set 1 or true to reduce payment"
 }
 
-variable name {
+variable "name" {
   description = "Name for rds"
 }
 
-variable database_subnet_ids {
-  type = list
+variable "database_subnet_ids" {
+  type        = list(any)
   description = "List of ids of database subnet."
 }
 
-variable rds_security_group_ids {
-  type = list
+variable "rds_security_group_ids" {
+  type        = list(any)
   description = "List of securty groups attached to RDS."
 }
 
-variable port {
+variable "port" {
   description = "port that the rds listens"
 }
 
-variable username {
+variable "username" {
   description = "username for rds"
 }
 
-variable instance_class {
+variable "instance_class" {
   description = "Example: db.t2.micro"
 }
 
-variable allocated_storage {
+variable "allocated_storage" {
   description = "Example: 20"
 }
 
-variable storage_class {
+variable "storage_class" {
   description = "Example: gp2"
 }
 
-variable multi_az {
+variable "multi_az" {
   description = "true/false"
 }
 
-variable backup_window {
+variable "backup_window" {
   description = "Example: 05:20-05:50"
 }
 
-variable maintenance_window {
+variable "maintenance_window" {
   description = "sun:04:00-sun:04:30"
 }

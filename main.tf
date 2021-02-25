@@ -51,6 +51,7 @@ module "rds" {
 
   env                    = var.env
   project                = var.project
+  ssm_base_path               = local.ssm_base_path
   name                   = var.rds_name
   database_subnet_ids    = local.network.database_subnet_ids
   rds_security_group_ids = [module.security_group.rds_id]
@@ -70,8 +71,15 @@ module "operation_server" {
   source                     = "./modules/operation_server"
   env                        = var.env
   project                    = var.project
+  ssm_base_path                   = local.ssm_base_path
   iam_role_id                = local.operation_server.iam_role_id
   s3_provisioning_bucket_arn = module.s3.provisioning_bucket_arn
   os_username                = local.operation_server_username
   instance_id                = local.operation_server.instance_id
+  rds_identifier             = module.rds.identifier
+  rds_endpoint               = module.rds.endpoint
+  rds_username               = module.rds.username
+  rds_password_secrets_arn   = module.rds.password_secrets_arn
+  rds_appdb_username         = var.rds_appdb_username
+  rds_appdb_name             = var.rds_appdb_name
 }

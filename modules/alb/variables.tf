@@ -1,38 +1,38 @@
-variable project {
+variable "project" {
   description = "project name. Example: foo-bar"
 }
 
-variable env {
+variable "env" {
   description = "dev/stg/prd"
 }
 
-variable hosted_zone_id {
+variable "hosted_zone_id" {
   description = "Hosted zone id found in Route53 hosted zone."
 }
 
-variable hosted_zone_name {
+variable "hosted_zone_name" {
   description = "Example: example.com"
 }
 
-variable subdomain_csweb {
+variable "subdomain_csweb" {
   description = "Example: 'dev-webapp' in dev-webapp.example.com"
 }
 
-variable sg_alb_csweb_ids {
-  type = list
+variable "sg_alb_csweb_ids" {
+  type        = list(any)
   description = "List of securty groups attached to csweb alb"
 }
 
-variable vpc_id {
+variable "vpc_id" {
   description = "vpc_id to place alb target group."
 }
 
-variable public_subnet_ids {
-  type = list
+variable "public_subnet_ids" {
+  type        = list(any)
   description = "List of ids of database subnet."
 }
 
-variable csweb_app_health_check_path {
+variable "csweb_app_health_check_path" {
   description = "Example: /__healthcheck"
 }
 

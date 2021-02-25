@@ -13,13 +13,13 @@ module "production_network" {
 }
 
 module "production_operation_server" {
-  source                   = "./modules/operation_server"
-  network_env              = "prd"
-  vpc_id                   = module.production_network.vpc_id
-  aws_vpc_cidr             = var.aws_vpc_cidr_prd
-  public_subnet_id         = module.production_network.public_subnet_ids[0]
-  operator_users           = var.external_operator_users_prd # TODO
-  os_username              = var.operation_server_username
+  source           = "./modules/operation_server"
+  network_env      = "prd"
+  vpc_id           = module.production_network.vpc_id
+  aws_vpc_cidr     = var.aws_vpc_cidr_prd
+  public_subnet_id = module.production_network.public_subnet_ids[0]
+  operator_users   = var.external_operator_users_prd # TODO
+  os_username      = var.operation_server_username
 }
 
 module "ecr" {

@@ -58,3 +58,11 @@ variable "rds_instance_params" {
   type        = map(any)
   description = "instance_class, storage_class, allocated_storage ..."
 }
+
+variable "rds_appdb_name" {
+  description = "Name of the database that app will use."
+}
+
+variable "rds_appdb_username" {
+  description = "Name of the user that app will use."
+}

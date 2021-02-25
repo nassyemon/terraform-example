@@ -1,36 +1,36 @@
 locals {
-  operation_server_name =  "${var.network_env}-operation-server"
+  operation_server_name = "${var.network_env}-operation-server"
   instance_connect_name = "${local.operation_server_name}-instance-connect"
   tags = {
     NetworkEnv = var.network_env
   }
 }
 
-data aws_ami operation_server {
+data "aws_ami" "operation_server" {
   most_recent = true
 
   filter {
-      name   = "name"
-      values = ["ubuntu/images/hvm-ssd/ubuntu-groovy-20.10-amd64-server-*"]
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-groovy-20.10-amd64-server-*"]
   }
 
   filter {
-      name = "virtualization-type"
-      values = ["hvm"]
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
 
-    owners = ["099720109477"]
+  owners = ["099720109477"]
 }
 
-resource aws_instance operation_server {
+resource "aws_instance" "operation_server" {
   ami                         = data.aws_ami.operation_server.id
   instance_type               = "t3.micro"
   subnet_id                   = var.public_subnet_id
   associate_public_ip_address = true
 
   root_block_device {
-    volume_type = "gp3"
-    volume_size = 20
+    volume_type           = "gp3"
+    volume_size           = 20
     delete_on_termination = true
   }
 

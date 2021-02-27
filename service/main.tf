@@ -106,7 +106,8 @@ module "ecs_service_csweb" {
   log_group_app_name         = module.log_group.ecs_service_csweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_csweb.nginx_name
   task_definition_yml        = "csweb.yaml"
-  depends_on                 = [module.alb_csweb]
+
+  depends_on                 = [module.alb_csweb. module.operation_server]
 }
 
 module "ecs_service_admweb" {
@@ -125,7 +126,8 @@ module "ecs_service_admweb" {
   log_group_app_name         = module.log_group.ecs_service_admweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_admweb.nginx_name
   task_definition_yml        = "admweb.yaml"
-  depends_on                 = [module.alb_admweb]
+
+  depends_on                 = [module.alb_admweb, module.operation_server]
 }
 
 # operation server provisioning.
@@ -144,4 +146,6 @@ module "operation_server" {
   rds_password_secrets_arn   = module.rds.password_secrets_arn
   rds_appdb_username         = var.rds_appdb_username
   rds_appdb_name             = var.rds_appdb_name
+
+  depends_on                 = [module.s3, module.rds]
 }

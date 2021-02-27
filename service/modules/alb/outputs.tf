@@ -1,12 +1,12 @@
-output "csweb_cert_arn" {
-  value = aws_acm_certificate.csweb.arn
+output "cert_arn" {
+  value = aws_acm_certificate.cert.arn
 }
 
-output "csweb_arn" {
-  value = aws_alb.csweb.arn
+output "arn" {
+  value = aws_alb.alb.arn
 }
 
-output "target_group_csweb_arn" {
-  value      = aws_alb_target_group.csweb.arn
-  depends_on = [aws_alb.csweb]
+output "target_group_arn" {
+  value      = aws_alb_target_group.alb.arn
+  depends_on = [aws_alb_target_group.alb]
 }

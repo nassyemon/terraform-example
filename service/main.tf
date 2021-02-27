@@ -20,31 +20,43 @@ module "s3" {
   project = var.project
 }
 
-module "alb" {
-  source = "./modules/alb"
-
-  env                         = var.env
-  project                     = var.project
-  hosted_zone_id              = var.hosted_zone_id
-  hosted_zone_name            = var.hosted_zone_name
-  vpc_id                      = local.vpc_id
-  subdomain_csweb             = var.subdomain_csweb
-  csweb_app_health_check_path = var.csweb_app_health_check_path
-  public_subnet_ids           = local.public_subnet_ids
-  sg_alb_csweb_ids            = [module.security_group.alb_csweb_id]
+module "iam" {
+  source  = "./modules/iam"
+  env     = var.env
+  project = var.project
 }
 
-module "ecs" {
-  source = "./modules/ecs"
+module "alb_csweb" {
+  source = "./modules/alb"
 
-  env                        = var.env
-  project                    = var.project
-  webapp_subnet_ids          = local.webapp_subnet_ids
-  sg_ecs_csweb_ids           = [module.security_group.ecs_csweb_id]
-  csweb_app_repository_url   = local.ecr_csweb.app_repository_url
-  csweb_nginx_repository_url = local.ecr_csweb.nginx_repository_url
-  alb_target_group_csweb_arn = module.alb.target_group_csweb_arn
-  log_group_ecs_csweb_app    = module.log_group.ecs_csweb_app
+  env               = var.env
+  project           = var.project
+  hosted_zone_id    = var.hosted_zone_id
+  hosted_zone_name  = var.hosted_zone_name
+  vpc_id            = local.vpc_id
+  subdomain         = var.subdomain_csweb
+  health_check_path = var.csweb_health_check_path
+  subnet_ids        = local.public_subnet_ids
+  sg_alb_ids        = [module.security_group.alb_csweb_id]
+  internal          = false
+}
+
+module "ecs_service_csweb" {
+  source = "./modules/ecs_service"
+
+  env                       = var.env
+  project                   = var.project
+  service_name              = "csweb"
+  webapp_subnet_ids         = local.webapp_subnet_ids
+  sg_ecs_ids                = [module.security_group.ecs_csweb_id]
+  iam_ecs_task_role_arn     = module.iam.ecs_task_role_arn
+  iam_ecs_execution_role_arn= module.iam.ecs_execiton_role_arn
+  app_repository_url        = local.ecr_csweb.app_repository_url
+  nginx_repository_url      = local.ecr_csweb.nginx_repository_url
+  alb_target_group_arn      = module.alb_csweb.target_group_arn
+  log_group_app_name             = module.log_group.ecs_service_csweb.app_name
+  log_group_nginx_name           = module.log_group.ecs_service_csweb.nginx_name
+  task_definition_yml       = "csweb.yaml"
 }
 
 module "rds" {

@@ -41,7 +41,7 @@ variable "subdomain_csweb" {
   description = "Example: 'webapp_dev' in webapp_dev.example.com"
 }
 
-variable "csweb_app_health_check_path" {
+variable "csweb_health_check_path" {
   description = "Example: /__healthcheck"
 }
 
@@ -65,4 +65,10 @@ variable "rds_appdb_name" {
 
 variable "rds_appdb_username" {
   description = "Name of the user that app will use."
+}
+
+# ecs
+variable "csweb_ecs_params" {
+  type = map(any)
+  description = "task_cpu, task_memory, service_desired_count, ..."
 }

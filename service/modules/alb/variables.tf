@@ -14,28 +14,33 @@ variable "hosted_zone_name" {
   description = "Example: example.com"
 }
 
-variable "subdomain_csweb" {
+variable "subdomain" {
   description = "Example: 'dev-webapp' in dev-webapp.example.com"
 }
 
-variable "sg_alb_csweb_ids" {
+variable "sg_alb_ids" {
   type        = list(any)
-  description = "List of securty groups attached to csweb alb"
+  description = "List of securty groups attached to alb"
 }
 
 variable "vpc_id" {
   description = "vpc_id to place alb target group."
 }
 
-variable "public_subnet_ids" {
+variable "subnet_ids" {
   type        = list(any)
   description = "List of ids of database subnet."
 }
 
-variable "csweb_app_health_check_path" {
+variable "health_check_path" {
   description = "Example: /__healthcheck"
 }
 
-# variable csweb_logs_bucket {
-#   description = "Log bucket to store access logs of csweb alb."
+variable "internal" {
+  default     = false
+  description = "True to create internal (not internet-facing) alb."
+}
+
+# variable logs_bucket {
+#   description = "Log bucket to store access logs of alb."
 # }

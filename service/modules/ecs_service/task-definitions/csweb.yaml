@@ -6,7 +6,7 @@
       hostPort: 80
       protocol: tcp
   environment:
-    - name: "ENVIRONMENT"
+    - name: ENVIRONMENT
       value: ${environment}
     - name: FLASK_APP
       value: "./run.py"
@@ -30,5 +30,5 @@
     logDriver: awslogs
     options:
       awslogs-region: "${aws_region}"
-      awslogs-group: "${aws_log_group}"
-      awslogs-stream-prefix: "${app_log_prefix}"
+      awslogs-group: "${app_log_group}"
+      awslogs-stream-prefix: "app-"

@@ -1,3 +1,9 @@
+
+locals {
+  ecs_log_group   = "${local.log_group_arn_base}/ecs/*"
+  ecs_name_prefix = "${var.project}-${var.env}-ecs"
+}
+
 locals {
   assume_role_policy_ecs_tasks = jsonencode(
     {
@@ -57,16 +63,16 @@ data "template_file" "ecs_execution_policy" {
 
 # task policy
 resource "aws_iam_policy" "ecs_task" {
-  name        = "${local.csweb_family}-webapp-task-policy"
-  description = "task policy for ${local.csweb_family}"
+  name        = "${local.ecs_name_prefix}-task-policy"
+  description = "ecs task policy for ${local.ecs_name_prefix}"
   path        = "/"
 
   policy = data.template_file.ecs_task_policy.rendered
 }
 
 resource "aws_iam_policy" "ecs_execution" {
-  name        = "${var.project}-${var.env}-ecs-execution-policy"
-  description = "task execution policy for ${var.project}-${var.env}"
+  name        = "${local.ecs_name_prefix}-execution-policy"
+  description = "task execution policy for ${local.ecs_name_prefix}"
   path        = "/"
 
   policy = data.template_file.ecs_execution_policy.rendered
@@ -74,8 +80,8 @@ resource "aws_iam_policy" "ecs_execution" {
 
 # task role
 resource "aws_iam_role" "ecs_task" {
-  name        = "${local.csweb_family}-webapp-task-role"
-  description = "task role for ${local.csweb_family}"
+  name        = "${local.ecs_name_prefix}-task-role"
+  description = "task role for ${local.ecs_name_prefix}"
 
   assume_role_policy = local.assume_role_policy_ecs_tasks
 
@@ -94,8 +100,8 @@ resource "aws_iam_role_policy_attachment" "ecs_task" {
 
 
 resource "aws_iam_role" "ecs_execution" {
-  name        = "${var.project}-${var.env}-ecs-execution-role"
-  description = "task execution role for ${var.project}-${var.env}"
+  name        = "${local.ecs_name_prefix}-execution-role"
+  description = "task execution role for ${local.ecs_name_prefix}"
 
   assume_role_policy = local.assume_role_policy_ecs_tasks
 

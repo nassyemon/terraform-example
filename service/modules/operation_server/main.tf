@@ -21,8 +21,8 @@ data "template_file" "operation_server" {
           ],
           "Effect" : "Allow",
           "Resource" : [
-            "$${provisioning_bucket_arn}",
-            "$${provisioning_bucket_arn}/*"
+            "$${bucket_provisioning_arn}",
+            "$${bucket_provisioning_arn}/*"
           ]
         },
         {
@@ -44,7 +44,7 @@ data "template_file" "operation_server" {
   })
 
   vars = {
-    provisioning_bucket_arn = var.s3_provisioning_bucket_arn
+    bucket_provisioning_arn = var.s3_bucket_provisioning.arn
     ssm_resource_arn        = "arn:aws:ssm:${local.region_account_id}:parameter${var.ssm_base_path}/*"
     secrets_resource_arn    = "arn:aws:secretsmanager:${local.region_account_id}:secret:${var.ssm_base_path}/*"
   }

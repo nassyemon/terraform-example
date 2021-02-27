@@ -16,8 +16,10 @@ terraform {
     }
   }
 
-  backend "local" {
-    path = "../${env}-terraform.tfstate"
+  backend "s3" {
+    bucket = "${bucket_provisioning_id}"
+    key    = "provisioning/terraform/${env}-${project}.tfstate"
+    region = "${aws_region}"
   }
 }
 

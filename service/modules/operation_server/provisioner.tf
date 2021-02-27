@@ -19,7 +19,9 @@ locals {
   hash_files = md5(join("-", [for filepath in concat(local.files, local.templates) : filemd5(filepath)]))
   template_vars = {
     aws_region                       = data.aws_region.current.name,
+    bucket_provisioning_id           = var.s3_bucket_provisioning.id,
     rds_identifier                   = var.rds_identifier
+    project                          = var.project
     env                              = var.env
     endpoint                         = var.rds_endpoint
     root_username                    = var.rds_username

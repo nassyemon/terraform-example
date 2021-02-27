@@ -20,7 +20,9 @@ locals {
     : data.terraform_remote_state.global.outputs.development_operation_server
   )
   ssm_base_path             = "/${var.project}/${var.env}"
-  ecr_csweb_app             = data.terraform_remote_state.global.outputs.ecr_csweb_app
+  ecr_csweb                 = data.terraform_remote_state.global.outputs.ecr_csweb
+  ecr_admweb                = data.terraform_remote_state.global.outputs.ecr_admweb
+  ecr_migrate               = data.terraform_remote_state.global.outputs.ecr_migrate
   operation_server_username = data.terraform_remote_state.global.outputs.operation_server_username
   vpc_id                    = local.network.vpc_id
   public_subnet_ids         = local.network.public_subnet_ids

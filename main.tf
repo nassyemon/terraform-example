@@ -41,7 +41,8 @@ module "ecs" {
   project                    = var.project
   webapp_subnet_ids          = local.webapp_subnet_ids
   sg_ecs_csweb_ids           = [module.security_group.ecs_csweb_id]
-  csweb_app_repository_url   = local.ecr_csweb_app.repository_url
+  csweb_app_repository_url   = local.ecr_csweb.app_repository_url
+  csweb_nginx_repository_url = local.ecr_csweb.nginx_repository_url
   alb_target_group_csweb_arn = module.alb.target_group_csweb_arn
   log_group_ecs_csweb_app    = module.log_group.ecs_csweb_app
 }

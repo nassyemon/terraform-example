@@ -15,7 +15,7 @@ variable "iam_role_id" {
 }
 
 variable "s3_bucket_provisioning" {
-  type = map(any)
+  type        = map(any)
   description = "S3 bucket for provisioning asset"
 }
 
@@ -32,7 +32,7 @@ variable "rds_identifier" {
 }
 
 variable "rds_endpoint" {
-  description = "Endpoint of RDS."
+  description = "Endpoint of RDS. (hostname:port)"
 }
 
 variable "rds_username" {

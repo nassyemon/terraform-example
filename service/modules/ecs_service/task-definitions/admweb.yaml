@@ -2,26 +2,25 @@
   image: "${docker_repository}:latest_main"
   essential: true
   portMappings:
-    - containerPort: ${app_container_port}
+    - containerPort: ${nginx_container_port}
       hostPort: 80
       protocol: tcp
   environment:
     - name: ENVIRONMENT
-      value: ${environment}
+      value: "${environment}"
     - name: NODE_ENV
-      value: development
+      value: production
     # - name: DB_USER
-    #   value: TODO
-    # - name: DB_PASSWORD
-    #   value: TODO
+    #   value: "${db_username}"
     # - name: DB_NAME
-    #   value: TODO
+    #   value: "${db_name}"
     # - name: DB_PORT
-    #   value: 3306
+    #   value: "${db_port}"
     # - name: DB_HOST
-    #   value: TODO
-    # - name: MIGRATIONS_DIR
-    #   value: "./db_migrations"
+    #   value: "${db_host}"
+  secrets:
+    - name: DB_PASSWORD
+      valueFrom: "${db_password_secrets_arn}"
   logConfiguration:
     logDriver: awslogs
     options:

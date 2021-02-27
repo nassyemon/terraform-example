@@ -53,6 +53,11 @@ variable "task_definition_yml" {
   description = "Name of task definition yml file."
 }
 
+variable "task_template_parameters" {
+  type        = map(any)
+  description = "task defnition specific parameters."
+}
+
 # task defintion parameters.
 variable "task_cpu" {
   default     = 512

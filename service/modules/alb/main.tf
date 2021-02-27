@@ -79,7 +79,7 @@ resource "aws_alb_listener" "http" {
   dynamic "default_action" {
     for_each = var.redirect_https ? [true] : []
     content {
-      type     = "redirect"
+      type = "redirect"
       redirect {
         port        = "443"
         protocol    = "HTTPS"
@@ -89,7 +89,7 @@ resource "aws_alb_listener" "http" {
   }
 
   dynamic "default_action" {
-    for_each         = var.redirect_https ? [] : [true]
+    for_each = var.redirect_https ? [] : [true]
     content {
       target_group_arn = aws_alb_target_group.alb.arn
       type             = "forward"

@@ -11,15 +11,17 @@ locals {
 data "template_file" "task_definition_raw" {
   template = file("${path.module}/task-definitions/${var.task_definition_yml}")
 
-  vars = {
-    environment        = var.env
-    docker_repository  = var.app_repository_url
-    app_container_port = 80 # TODO
-    aws_region         = data.aws_region.current.name
-    app_log_group      = var.log_group_app_name
-    nginx_log_group    = var.log_group_nginx_name
-  }
+  vars = merge({
+    environment          = var.env
+    docker_repository    = var.app_repository_url
+    nginx_container_port = 80
+    # logs
+    aws_region      = data.aws_region.current.name
+    app_log_group   = var.log_group_app_name
+    nginx_log_group = var.log_group_nginx_name
+  }, var.task_template_parameters)
 }
+
 # ecs clusrter
 resource "aws_ecs_cluster" "ecs_service" {
   name = "${local.family}-cluster"

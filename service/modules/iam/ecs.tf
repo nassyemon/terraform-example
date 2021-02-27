@@ -51,13 +51,19 @@ data "template_file" "ecs_execution_policy" {
         {
           "Action" : ["ssm:GetParameters"],
           "Effect" : "Allow",
-          "Resource" : "$${ssm_parameter_path}"
+          "Resource" : "$${ssm_resource_arn}"
+        },
+        {
+          "Action" : ["secretsmanager:GetSecretValue"],
+          "Effect" : "Allow",
+          "Resource" : "$${secrets_resource_arn}"
         }
       ]
   })
 
   vars = {
-    ssm_parameter_path = local.ssm_parameter_path
+    ssm_resource_arn     = local.ssm_resource_arn
+    secrets_resource_arn = local.secrets_resource_arn
   }
 }
 

@@ -1,14 +1,14 @@
 # sg
 module "security_group" {
-  source                 = "./modules/security_group"
-  env                    = var.env
-  project                = var.project
-  vpc_id                 = local.vpc_id
-  rds_port               = 3306
-  webapp_subnet_ids      = local.webapp_subnet_ids
-  csweb_alb_ingress_cidrs = var.csweb_alb_ingress_cidrs
+  source                   = "./modules/security_group"
+  env                      = var.env
+  project                  = var.project
+  vpc_id                   = local.vpc_id
+  rds_port                 = 3306
+  webapp_subnet_ids        = local.webapp_subnet_ids
+  csweb_alb_ingress_cidrs  = var.csweb_alb_ingress_cidrs
   admweb_alb_ingress_cidrs = var.admweb_alb_ingress_cidrs
-  sg_operation_server_id = local.operation_server.security_group_id
+  sg_operation_server_id   = local.operation_server.security_group_id
 }
 
 # log
@@ -27,9 +27,10 @@ module "s3" {
 
 # iam
 module "iam" {
-  source  = "./modules/iam"
-  env     = var.env
-  project = var.project
+  source        = "./modules/iam"
+  env           = var.env
+  project       = var.project
+  ssm_base_path = local.ssm_base_path
 }
 
 # rds
@@ -105,9 +106,24 @@ module "ecs_service_csweb" {
   alb_target_group_arn       = module.alb_csweb.target_group_arn
   log_group_app_name         = module.log_group.ecs_service_csweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_csweb.nginx_name
-  task_definition_yml        = "csweb.yaml"
-
-  depends_on                 = [module.alb_csweb. module.operation_server]
+  # task definition
+  task_definition_yml = "csweb.yaml"
+  ## template parameters
+  task_template_parameters = {
+    flask_debug             = 1 # TODO:
+    db_host                 = module.rds.address
+    db_port                 = module.rds.port
+    db_name                 = var.rds_appdb_name
+    db_username             = var.rds_appdb_username
+    db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
+  }
+  ## task parameters
+  task_cpu    = var.csweb_ecs_params.task_cpu
+  task_memory = var.csweb_ecs_params.task_memory
+  # service
+  service_desired_count = var.csweb_ecs_params.service_desired_count
+  # dependency 
+  depends_on = [module.rds, module.alb_csweb, module.operation_server]
 }
 
 module "ecs_service_admweb" {
@@ -125,27 +141,39 @@ module "ecs_service_admweb" {
   alb_target_group_arn       = module.alb_admweb.target_group_arn
   log_group_app_name         = module.log_group.ecs_service_admweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_admweb.nginx_name
-  task_definition_yml        = "admweb.yaml"
-
-  depends_on                 = [module.alb_admweb, module.operation_server]
+  # task definition
+  task_definition_yml = "admweb.yaml"
+  task_template_parameters = {
+    db_host                 = module.rds.address
+    db_port                 = module.rds.port
+    db_name                 = var.rds_appdb_name
+    db_username             = var.rds_appdb_username
+    db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
+  }
+  task_cpu    = var.admweb_ecs_params.task_cpu
+  task_memory = var.admweb_ecs_params.task_memory
+  # service
+  service_desired_count = var.admweb_ecs_params.service_desired_count
+  # dependency
+  depends_on = [module.rds, module.alb_admweb, module.operation_server]
 }
 
 # operation server provisioning.
 module "operation_server" {
-  source                     = "./modules/operation_server"
-  env                        = var.env
-  project                    = var.project
-  ssm_base_path              = local.ssm_base_path
-  iam_role_id                = local.operation_server.iam_role_id
-  s3_bucket_provisioning     = module.s3.bucket_provisioning
-  os_username                = local.operation_server_username
-  instance_id                = local.operation_server.instance_id
-  rds_identifier             = module.rds.identifier
-  rds_endpoint               = module.rds.endpoint
-  rds_username               = module.rds.username
-  rds_password_secrets_arn   = module.rds.password_secrets_arn
-  rds_appdb_username         = var.rds_appdb_username
-  rds_appdb_name             = var.rds_appdb_name
+  source                   = "./modules/operation_server"
+  env                      = var.env
+  project                  = var.project
+  ssm_base_path            = local.ssm_base_path
+  iam_role_id              = local.operation_server.iam_role_id
+  s3_bucket_provisioning   = module.s3.bucket_provisioning
+  os_username              = local.operation_server_username
+  instance_id              = local.operation_server.instance_id
+  rds_identifier           = module.rds.identifier
+  rds_endpoint             = module.rds.endpoint
+  rds_username             = module.rds.username
+  rds_password_secrets_arn = module.rds.password_secrets_arn
+  rds_appdb_username       = var.rds_appdb_username
+  rds_appdb_name           = var.rds_appdb_name
 
-  depends_on                 = [module.s3, module.rds]
+  depends_on = [module.s3, module.rds]
 }

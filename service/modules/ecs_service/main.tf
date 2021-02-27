@@ -1,5 +1,3 @@
-data "aws_caller_identity" "current" {}
-
 data "aws_region" "current" {}
 
 locals {
@@ -14,6 +12,7 @@ data "template_file" "task_definition_raw" {
   vars = merge({
     environment          = var.env
     docker_repository    = var.app_repository_url
+    image_tag            = "latest_main" # TODO.
     nginx_container_port = 80
     # logs
     aws_region      = data.aws_region.current.name
@@ -53,7 +52,7 @@ resource "aws_ecs_service" "ecs_service" {
   launch_type = "FARGATE"
 
   network_configuration {
-    subnets          = var.webapp_subnet_ids
+    subnets          = var.subnet_ids
     security_groups  = var.sg_ecs_ids
     assign_public_ip = false
   }

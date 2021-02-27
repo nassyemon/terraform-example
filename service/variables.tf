@@ -96,3 +96,8 @@ variable "admweb_ecs_params" {
   type        = map(any)
   description = "task_cpu, task_memory, service_desired_count, ..."
 }
+
+variable "batch_general_ecs_params" {
+  type        = map(any)
+  description = "task_cpu, task_memory, ..."
+}

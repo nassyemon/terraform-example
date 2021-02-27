@@ -1,3 +1,8 @@
+locals {
+  alb_admweb_name = "${local.sg_prefix}-alb-admweb"
+  ecs_admweb_name = "${local.sg_prefix}-ecs-admweb"
+}
+
 resource "aws_security_group" "alb_admweb" {
   name        = local.alb_admweb_name
   description = "security group for ${local.alb_admweb_name}"

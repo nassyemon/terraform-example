@@ -1,10 +1,6 @@
 - name: app
   image: "${docker_repository}:${image_tag}"
   essential: true
-  portMappings:
-    - containerPort: ${nginx_container_port}
-      hostPort: 80
-      protocol: tcp
   environment:
     - name: ENVIRONMENT
       value: "${environment}"

@@ -14,6 +14,10 @@ output "ecs_admweb_id" {
   value = aws_security_group.ecs_admweb.id
 }
 
+output "ecs_batch_general_id" {
+  value = aws_security_group.ecs_batch_general.id
+}
+
 output "rds_id" {
   value = aws_security_group.rds.id
 }

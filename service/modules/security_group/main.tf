@@ -1,10 +1,6 @@
 locals {
-  sg_prefix       = "${var.project}-${var.env}"
-  alb_csweb_name  = "${local.sg_prefix}-alb-csweb"
-  ecs_csweb_name  = "${local.sg_prefix}-ecs-csweb"
-  alb_admweb_name = "${local.sg_prefix}-alb-admweb"
-  ecs_admweb_name = "${local.sg_prefix}-ecs-admweb"
-  rds_name        = "${local.sg_prefix}-rds"
+  sg_prefix = "${var.project}-${var.env}"
+  rds_name  = "${local.sg_prefix}-rds"
   tags = {
     Env        = var.env
     Project    = var.project
@@ -31,6 +27,7 @@ resource "aws_security_group" "rds" {
       var.sg_operation_server_id,
       aws_security_group.ecs_csweb.id,
       aws_security_group.ecs_admweb.id,
+      aws_security_group.ecs_batch_general.id,
     ]
   }
 

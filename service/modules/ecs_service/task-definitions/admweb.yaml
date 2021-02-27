@@ -1,5 +1,5 @@
 - name: app
-  image: "${docker_repository}:latest_main"
+  image: "${docker_repository}:${image_tag}"
   essential: true
   portMappings:
     - containerPort: ${nginx_container_port}

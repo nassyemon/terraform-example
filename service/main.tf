@@ -1,3 +1,13 @@
+locals {
+  task_definition_template_params_base = {
+    db_host                 = module.rds.address
+    db_port                 = module.rds.port
+    db_name                 = var.rds_appdb_name
+    db_username             = var.rds_appdb_username
+    db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
+  }
+}
+
 # sg
 module "security_group" {
   source                   = "./modules/security_group"
@@ -97,7 +107,7 @@ module "ecs_service_csweb" {
   env                        = var.env
   project                    = var.project
   service_name               = "csweb"
-  webapp_subnet_ids          = local.webapp_subnet_ids
+  subnet_ids                 = local.webapp_subnet_ids
   sg_ecs_ids                 = [module.security_group.ecs_csweb_id]
   iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
@@ -109,14 +119,9 @@ module "ecs_service_csweb" {
   # task definition
   task_definition_yml = "csweb.yaml"
   ## template parameters
-  task_template_parameters = {
-    flask_debug             = 1 # TODO:
-    db_host                 = module.rds.address
-    db_port                 = module.rds.port
-    db_name                 = var.rds_appdb_name
-    db_username             = var.rds_appdb_username
-    db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
-  }
+  task_template_parameters = merge({
+    flask_debug = 1 # TODO:
+  }, local.task_definition_template_params_base)
   ## task parameters
   task_cpu    = var.csweb_ecs_params.task_cpu
   task_memory = var.csweb_ecs_params.task_memory
@@ -132,7 +137,7 @@ module "ecs_service_admweb" {
   env                        = var.env
   project                    = var.project
   service_name               = "admweb"
-  webapp_subnet_ids          = local.webapp_subnet_ids
+  subnet_ids                 = local.webapp_subnet_ids
   sg_ecs_ids                 = [module.security_group.ecs_admweb_id]
   iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
@@ -142,20 +147,37 @@ module "ecs_service_admweb" {
   log_group_app_name         = module.log_group.ecs_service_admweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_admweb.nginx_name
   # task definition
-  task_definition_yml = "admweb.yaml"
-  task_template_parameters = {
-    db_host                 = module.rds.address
-    db_port                 = module.rds.port
-    db_name                 = var.rds_appdb_name
-    db_username             = var.rds_appdb_username
-    db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
-  }
-  task_cpu    = var.admweb_ecs_params.task_cpu
-  task_memory = var.admweb_ecs_params.task_memory
+  task_definition_yml      = "admweb.yaml"
+  task_template_parameters = merge({}, local.task_definition_template_params_base)
+  task_cpu                 = var.admweb_ecs_params.task_cpu
+  task_memory              = var.admweb_ecs_params.task_memory
   # service
   service_desired_count = var.admweb_ecs_params.service_desired_count
   # dependency
   depends_on = [module.rds, module.alb_admweb, module.operation_server]
+}
+
+module "ecs_batch_migrate" {
+  source = "./modules/ecs_batch"
+
+  env                        = var.env
+  project                    = var.project
+  app_name                   = "migrate"
+  subnet_ids                 = local.database_subnet_ids
+  sg_ecs_ids                 = [module.security_group.ecs_batch_general_id]
+  iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
+  iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
+  app_repository_url         = local.ecr_migrate.app_repository_url
+  log_group_app_name         = module.log_group.ecs_batch_migrate.app_name
+  # task definition
+  task_definition_yml = "migrate.yaml"
+  task_template_parameters = merge({
+    flask_debug = 1 # TODO:
+  }, local.task_definition_template_params_base)
+  task_cpu    = var.batch_general_ecs_params.task_cpu
+  task_memory = var.batch_general_ecs_params.task_memory
+  # dependency
+  depends_on = [module.rds, module.operation_server]
 }
 
 # operation server provisioning.

@@ -36,9 +36,26 @@ variable "destination_cidr_block" {
 
 # ci/cd
 variable "csweb_app_repository_name" {
-  description = "Name of ECR repository"
+  description = "Name of ECR repository for csweb app"
 }
 
+variable "csweb_nginx_repository_name" {
+  description = "Name of ECR repository for csweb nginx"
+}
+
+variable "admweb_app_repository_name" {
+  description = "Name of ECR repository for admin web app"
+}
+
+variable "admweb_nginx_repository_name" {
+  description = "Name of ECR repository for admin web nginx"
+}
+
+variable "migrate_app_repository_name" {
+  description = "Name of ECR repository for migration app"
+}
+
+# operation server
 variable "external_operator_users_prd" {
   type        = list(any)
   description = "list of operator users defined outside terraform."

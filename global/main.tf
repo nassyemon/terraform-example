@@ -23,6 +23,10 @@ module "production_operation_server" {
 }
 
 module "ecr" {
-  source                    = "./modules/ecr"
-  csweb_app_repository_name = var.csweb_app_repository_name
+  source                       = "./modules/ecr"
+  csweb_app_repository_name    = var.csweb_app_repository_name
+  csweb_nginx_repository_name  = var.csweb_nginx_repository_name
+  admweb_app_repository_name   = var.admweb_app_repository_name
+  admweb_nginx_repository_name = var.admweb_nginx_repository_name
+  migrate_app_repository_name  = var.migrate_app_repository_name
 }

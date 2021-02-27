@@ -41,7 +41,7 @@ destroy:
 
 .PHONY: fmt
 fmt:
-	terraform fmt
+	terraform fmt -recursive
 
 .PHONY: output
 output:

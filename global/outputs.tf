@@ -30,6 +30,32 @@ output "disabled" {
   value = module.production_network.disabled
 }
 
+# ci/cd
+output "ecr_csweb" {
+  value = {
+    app_arn              = module.ecr.csweb.app_arn
+    app_repository_url   = module.ecr.csweb.app_repository_url
+    nginx_arn            = module.ecr.csweb.nginx_arn
+    nginx_repository_url = module.ecr.csweb.nginx_repository_url
+  }
+}
+
+output "ecr_admweb" {
+  value = {
+    app_arn              = module.ecr.admweb.app_arn
+    app_repository_url   = module.ecr.admweb.app_repository_url
+    nginx_arn            = module.ecr.admweb.nginx_arn
+    nginx_repository_url = module.ecr.admweb.nginx_repository_url
+  }
+}
+
+output "ecr_migrate" {
+  value = {
+    app_arn            = module.ecr.migrate.app_arn
+    app_repository_url = module.ecr.migrate.app_repository_url
+  }
+}
+
 # operation server
 output "production_operation_server" {
   value = {
@@ -45,14 +71,6 @@ output "development_operation_server" {
     instance_id       = local.development_operation_server.id
     security_group_id = local.development_operation_server.security_group_id
     iam_role_id       = local.development_operation_server.iam_role_id
-  }
-}
-
-# ci/cd
-output "ecr_csweb_app" {
-  value = {
-    arn            = module.ecr.webapp_arn
-    repository_url = module.ecr.csweb_app_repository_url
   }
 }
 

@@ -1,0 +1,30 @@
+- name: app
+  image: "${docker_repository}:latest_main"
+  essential: true
+  portMappings:
+    - containerPort: ${app_container_port}
+      hostPort: 80
+      protocol: tcp
+  environment:
+    - name: ENVIRONMENT
+      value: ${environment}
+    - name: NODE_ENV
+      value: development
+    # - name: DB_USER
+    #   value: TODO
+    # - name: DB_PASSWORD
+    #   value: TODO
+    # - name: DB_NAME
+    #   value: TODO
+    # - name: DB_PORT
+    #   value: 3306
+    # - name: DB_HOST
+    #   value: TODO
+    # - name: MIGRATIONS_DIR
+    #   value: "./db_migrations"
+  logConfiguration:
+    logDriver: awslogs
+    options:
+      awslogs-region: "${aws_region}"
+      awslogs-group: "${app_log_group}"
+      awslogs-stream-prefix: "app-"

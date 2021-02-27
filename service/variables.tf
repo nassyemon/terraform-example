@@ -28,23 +28,6 @@ variable "global_be_key" {
 variable "global_be_region" {
 }
 
-# alb
-variable "hosted_zone_id" {
-  description = "Hosted zone id found in Route53 hosted zone."
-}
-
-variable "hosted_zone_name" {
-  description = "Example: example.com"
-}
-
-variable "subdomain_csweb" {
-  description = "Example: 'webapp_dev' in webapp_dev.example.com"
-}
-
-variable "csweb_health_check_path" {
-  description = "Example: /__healthcheck"
-}
-
 # rds
 variable "rds_name" {
   description = "Name for rds"
@@ -67,8 +50,49 @@ variable "rds_appdb_username" {
   description = "Name of the user that app will use."
 }
 
-# ecs
+# alb common
+variable "hosted_zone_id" {
+  description = "Hosted zone id found in Route53 hosted zone."
+}
+
+variable "hosted_zone_name" {
+  description = "Example: example.com"
+}
+
+# csweb
+variable "csweb_subdomain" {
+  description = "Example: 'dev-csweb' in dev-csweb.example.com"
+}
+
+variable "csweb_alb_ingress_cidrs" {
+  type        = list(string)
+  description = "List of CIDRs from which csweb-alb allows request."
+}
+
+variable "csweb_health_check_path" {
+  description = "Example: /__healthcheck"
+}
+
 variable "csweb_ecs_params" {
-  type = map(any)
+  type        = map(any)
+  description = "task_cpu, task_memory, service_desired_count, ..."
+}
+
+# admin web
+variable "admweb_subdomain" {
+  description = "Example: 'dev-admweb' in dev-csweb.example.com"
+}
+
+variable "admweb_alb_ingress_cidrs" {
+  type        = list(string)
+  description = "List of CIDRs from which admweb-alb allows request."
+}
+
+variable "admweb_health_check_path" {
+  description = "Example: /__healthcheck"
+}
+
+variable "admweb_ecs_params" {
+  type        = map(any)
   description = "task_cpu, task_memory, service_desired_count, ..."
 }

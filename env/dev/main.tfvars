@@ -1,8 +1,20 @@
 network_env                 = "development_network"
-subdomain_csweb             = "dev-webapp"
-csweb_health_check_path     = "/api/__healthcheck"
 
+# csweb
+csweb_subdomain             = "dev-webapp"
+admweb_health_check_path    = "/api/__healthcheck"
+csweb_alb_ingress_cidrs = ["0.0.0.0/0"]
 csweb_ecs_params = {
+  task_cpu = 256
+  task_memory = 512
+  service_desired_count = 1
+}
+
+# admweb
+admweb_subdomain            = "dev-admin"
+admweb_alb_ingress_cidrs = ["0.0.0.0/0"]
+csweb_health_check_path     = "/api/__healthcheck"
+admweb_ecs_params = {
   task_cpu = 512
   task_memory = 1024
   service_desired_count = 1

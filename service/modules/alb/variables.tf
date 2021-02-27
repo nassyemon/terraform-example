@@ -36,8 +36,14 @@ variable "health_check_path" {
   description = "Example: /__healthcheck"
 }
 
+variable "listen_http" {
+  description = "True to create http (80) listner."
+}
+variable "redirect_https" {
+  description = "True to redirect access from http request to https."
+}
+
 variable "internal" {
-  default     = false
   description = "True to create internal (not internet-facing) alb."
 }
 

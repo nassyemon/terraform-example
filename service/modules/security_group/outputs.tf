@@ -6,6 +6,14 @@ output "ecs_csweb_id" {
   value = aws_security_group.ecs_csweb.id
 }
 
+output "alb_admweb_id" {
+  value = aws_security_group.alb_admweb.id
+}
+
+output "ecs_admweb_id" {
+  value = aws_security_group.ecs_admweb.id
+}
+
 output "rds_id" {
   value = aws_security_group.rds.id
 }

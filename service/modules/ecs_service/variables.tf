@@ -55,16 +55,16 @@ variable "task_definition_yml" {
 
 # task defintion parameters.
 variable "task_cpu" {
-  default = 512
+  default     = 512
   description = "CPU unit (1024 for 1vCPU)"
 }
 
 variable "task_memory" {
-  default = 1024
+  default     = 1024
   description = "Memory unit in GiB."
 }
 
 variable "service_desired_count" {
-  default = 1
+  default     = 1
   description = "Desired count of ecs task runing in service.."
 }

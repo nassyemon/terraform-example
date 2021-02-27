@@ -3,7 +3,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-  family = "${var.project}-${var.env}-${var.service_name}"
+  family          = "${var.project}-${var.env}-${var.service_name}"
   task_definition = jsonencode(yamldecode(data.template_file.task_definition_raw.rendered))
 }
 

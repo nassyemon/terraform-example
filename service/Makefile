@@ -1,7 +1,7 @@
 SHELL := ENV=${ENV} ./entrypoint.sh
-MAIN_TFVARS := env/${ENV}/main.tfvars
-DATABASE_TFVARS := env/${ENV}/database.tfvars
-SHARED_TFVARS := env/shared.tfvars
+MAIN_TFVARS := ../env/${ENV}/main.tfvars
+DATABASE_TFVARS := ../env/${ENV}/database.tfvars
+SHARED_TFVARS := ../env/shared.tfvars
 
 VAR_FILE_ARGS := -var-file ${SHARED_TFVARS} -var-file ${MAIN_TFVARS}  -var-file ${DATABASE_TFVARS} 
 

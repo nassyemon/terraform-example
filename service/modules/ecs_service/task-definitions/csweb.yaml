@@ -22,8 +22,6 @@
       value: "${db_port}"
     - name: DB_HOST
       value: "${db_host}"
-    # - name: MIGRATIONS_DIR
-    #   value: "./db_migrations"
   secrets:
     - name: DB_PASSWORD
       valueFrom: "${db_password_secrets_arn}"

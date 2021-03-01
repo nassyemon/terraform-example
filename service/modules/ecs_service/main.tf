@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 locals {
   family          = "${var.project}-${var.env}-${var.service_name}"
   task_definition = jsonencode(yamldecode(data.template_file.task_definition_raw.rendered))
@@ -15,7 +13,7 @@ data "template_file" "task_definition_raw" {
     image_tag            = "latest_main" # TODO.
     nginx_container_port = 80
     # logs
-    aws_region      = data.aws_region.current.name
+    aws_region      = var.aws_region
     app_log_group   = var.log_group_app_name
     nginx_log_group = var.log_group_nginx_name
   }, var.task_template_parameters)
@@ -24,6 +22,10 @@ data "template_file" "task_definition_raw" {
 # ecs clusrter
 resource "aws_ecs_cluster" "ecs_service" {
   name = "${local.family}-cluster"
+  setting {
+    name = "containerInsights"
+    value = "enabled"
+  }
 }
 
 # task definition for webapp

@@ -1,5 +1,3 @@
-data "aws_region" "current" {}
-
 locals {
   scripts_dir         = "${path.module}/scripts"
   username            = var.os_username
@@ -26,7 +24,7 @@ rm -f ${local.ssh_key_name_prefix}*
 ssh-keygen -t rsa -f ${local.ssh_key_name} -q -N ''
 
 aws ec2-instance-connect send-ssh-public-key \
---region ${data.aws_region.current.name} \
+--region ${var.aws_region} \
 --instance-id ${local.instance_id} \
 --availability-zone ${local.availability_zone} \
 --instance-os-user ${local.username} \

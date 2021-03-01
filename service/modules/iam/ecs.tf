@@ -26,7 +26,11 @@ data "template_file" "ecs_task_policy" {
       "Version" : "2012-10-17",
       "Statement" : [
         {
-          "Action" : ["logs:*"],
+          "Action" : [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+          ],
           "Effect" : "Allow",
           "Resource" : "$${ecs_log_group}"
         }

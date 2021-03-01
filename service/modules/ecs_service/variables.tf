@@ -6,6 +6,10 @@ variable "env" {
   description = "dev/stg/prd"
 }
 
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}
+
 variable "service_name" {
   description = "Name of service. Example: csweb, admweb ..."
 }

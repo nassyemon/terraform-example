@@ -18,7 +18,7 @@ locals {
   templates  = [for filepath in fileset(local.templates_dir, "**") : "${local.templates_dir}/${filepath}"]
   hash_files = md5(join("-", [for filepath in concat(local.files, local.templates) : filemd5(filepath)]))
   template_vars = {
-    aws_region                       = data.aws_region.current.name,
+    aws_region                       = var.aws_region,
     bucket_provisioning_id           = var.s3_bucket_provisioning.id,
     rds_identifier                   = var.rds_identifier
     project                          = var.project
@@ -80,7 +80,7 @@ rm -f ${local.ssh_key_name_prefix}*
 ssh-keygen -t rsa -f ${local.ssh_key_name} -q -N ''
 
 aws ec2-instance-connect send-ssh-public-key \
---region ${data.aws_region.current.name} \
+--region ${var.aws_region} \
 --instance-id ${local.instance_id} \
 --availability-zone ${local.availability_zone} \
 --instance-os-user ${local.username} \

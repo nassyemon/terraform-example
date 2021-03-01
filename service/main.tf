@@ -40,6 +40,7 @@ module "iam" {
   source        = "./modules/iam"
   env           = var.env
   project       = var.project
+  aws_region    = var.aws_region
   ssm_base_path = local.ssm_base_path
 }
 
@@ -106,6 +107,7 @@ module "ecs_service_csweb" {
 
   env                        = var.env
   project                    = var.project
+  aws_region                 = var.aws_region
   service_name               = "csweb"
   subnet_ids                 = local.webapp_subnet_ids
   sg_ecs_ids                 = [module.security_group.ecs_csweb_id]
@@ -136,6 +138,7 @@ module "ecs_service_admweb" {
 
   env                        = var.env
   project                    = var.project
+  aws_region                 = var.aws_region
   service_name               = "admweb"
   subnet_ids                 = local.webapp_subnet_ids
   sg_ecs_ids                 = [module.security_group.ecs_admweb_id]
@@ -162,6 +165,7 @@ module "ecs_batch_migrate" {
 
   env                        = var.env
   project                    = var.project
+  aws_region                 = var.aws_region
   app_name                   = "migrate"
   subnet_ids                 = local.database_subnet_ids
   sg_ecs_ids                 = [module.security_group.ecs_batch_general_id]
@@ -169,6 +173,7 @@ module "ecs_batch_migrate" {
   iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
   app_repository_url         = local.ecr_migrate.app_repository_url
   log_group_app_name         = module.log_group.ecs_batch_migrate.app_name
+  log_group_app_arn          = module.log_group.ecs_batch_migrate.app_arn
   # task definition
   task_definition_yml = "migrate.yaml"
   task_template_parameters = merge({
@@ -176,6 +181,10 @@ module "ecs_batch_migrate" {
   }, local.task_definition_template_params_base)
   task_cpu    = var.batch_general_ecs_params.task_cpu
   task_memory = var.batch_general_ecs_params.task_memory
+  command_map = {
+    "history" = ["db", "history"]
+    "upgrade" = ["db", "upgrade"]
+  }
   # dependency
   depends_on = [module.rds, module.operation_server]
 }
@@ -185,6 +194,7 @@ module "operation_server" {
   source                   = "./modules/operation_server"
   env                      = var.env
   project                  = var.project
+  aws_region               = var.aws_region
   ssm_base_path            = local.ssm_base_path
   iam_role_id              = local.operation_server.iam_role_id
   s3_bucket_provisioning   = module.s3.bucket_provisioning

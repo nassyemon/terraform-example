@@ -6,6 +6,10 @@ variable "env" {
   description = "dev/stg/prd"
 }
 
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}
+
 variable "app_name" {
   description = "Name of app. Example: migrate, route ..."
 }
@@ -37,6 +41,11 @@ variable "log_group_app_name" {
   description = "Name of log group for app."
 }
 
+variable "log_group_app_arn" {
+  description = "Arn of log group for app."
+}
+
+
 variable "task_definition_yml" {
   description = "Name of task definition yml file."
 }
@@ -55,4 +64,10 @@ variable "task_cpu" {
 variable "task_memory" {
   default     = 1024
   description = "Memory unit in GiB."
+}
+
+# commands amp
+variable "command_map" {
+  type        = map(list(string))
+  description = "key = command name, value = commands to override. Example: { routes = [\"routes\"], upgrade = [\"upgrade\"]}"
 }

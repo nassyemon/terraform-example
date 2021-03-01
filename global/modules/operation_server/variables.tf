@@ -1,3 +1,7 @@
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}
+
 variable "network_env" {
   description = "prd or dev."
 }

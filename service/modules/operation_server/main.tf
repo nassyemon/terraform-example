@@ -1,4 +1,3 @@
-data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 output "account_id" {
@@ -6,7 +5,7 @@ output "account_id" {
 }
 
 locals {
-  region_account_id     = "${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}"
+  region_account_id     = "${var.aws_region}:${data.aws_caller_identity.current.account_id}"
   operation_server_name = "${var.project}-${var.env}-operation-server"
 }
 

@@ -48,4 +48,10 @@ apt -y upgrade
 apt -y install ec2-instance-connect
 apt -y install python
 EOF
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+    ]
+  }
 }

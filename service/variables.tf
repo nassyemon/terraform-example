@@ -2,21 +2,21 @@ variable "project" {
   default = "terraform"
 }
 
+variable "env" {
+  description = "dev/stg/prd"
+}
+
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}
+
 variable "disabled" {
   default     = false
   description = "set true or 1 to reduce payment"
 }
 
-variable "env" {
-  description = "dev/stg/prd"
-}
-
 variable "network_env" {
   description = "Example: production_network"
-}
-
-variable "aws_region" {
-  description = "Example: ap-northeast-1"
 }
 
 variable "global_be_bucket" {

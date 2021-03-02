@@ -14,11 +14,11 @@ webapp_subnet_cidrs_prd   = ["172.30.0.0/23", "172.30.2.0/23"]
 database_subnet_cidrs_prd = ["172.30.8.0/23", "172.30.10.0/23"]
 public_subnet_cidrs_prd   = ["172.30.16.0/22", "172.30.20.0/22"]
 
-csweb_app_repository_name = "csweb_app"
-csweb_nginx_repository_name = "csweb_nginx"
-admweb_app_repository_name = "admweb_app"
+csweb_app_repository_name    = "csweb_app"
+csweb_nginx_repository_name  = "csweb_nginx"
+admweb_app_repository_name   = "admweb_app"
 admweb_nginx_repository_name = "admweb_nginx"
-migrate_app_repository_name = "migrate_app"
+migrate_app_repository_name  = "migrate_app"
 
 external_operator_users_prd = ["takanashi"]
 operation_server_username   = "ubuntu"

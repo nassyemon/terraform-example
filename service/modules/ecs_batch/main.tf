@@ -31,7 +31,7 @@ data "template_file" "task_definition_raw" {
 resource "aws_ecs_cluster" "ecs_batch" {
   name = local.cluster_name
   setting {
-    name = "containerInsights"
+    name  = "containerInsights"
     value = "enabled"
   }
 }

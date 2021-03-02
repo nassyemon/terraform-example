@@ -1,9 +1,9 @@
 - name: app
-  image: "${docker_repository}:${image_tag}"
+  image: "${app_docker_repository}:${app_image_tag}"
   essential: true
   portMappings:
-    - containerPort: ${nginx_container_port}
-      hostPort: 80
+    - containerPort: ${app_container_port}
+      hostPort: ${app_container_port}
       protocol: tcp
   environment:
     - name: ENVIRONMENT
@@ -22,6 +22,8 @@
       value: "${db_port}"
     - name: DB_HOST
       value: "${db_host}"
+    - name: APP_PORT
+      value: "${app_container_port}"
   secrets:
     - name: DB_PASSWORD
       valueFrom: "${db_password_secrets_arn}"
@@ -31,3 +33,24 @@
       awslogs-region: "${aws_region}"
       awslogs-group: "${app_log_group}"
       awslogs-stream-prefix: "app-"
+- name: nginx
+  image: "${nginx_docker_repository}:${nginx_image_tag}"
+  essential: true
+  portMappings:
+    - containerPort: ${nginx_container_port}
+      hostPort: 80
+      protocol: tcp
+  environment:
+    - name: APP_HOST
+      value: "127.0.0.1"
+    - name: APP_PORT
+      value: "${app_container_port}"
+  dependsOn:
+    - containerName: "app"
+      condition: "START"
+  logConfiguration:
+    logDriver: awslogs
+    options:
+      awslogs-region: "${aws_region}"
+      awslogs-group: "${nginx_log_group}"
+      awslogs-stream-prefix: "nginx-"

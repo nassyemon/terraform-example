@@ -113,8 +113,6 @@ module "ecs_service_csweb" {
   sg_ecs_ids                 = [module.security_group.ecs_csweb_id]
   iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
-  app_repository_url         = local.ecr_csweb.app_repository_url
-  nginx_repository_url       = local.ecr_csweb.nginx_repository_url
   alb_target_group_arn       = module.alb_csweb.target_group_arn
   log_group_app_name         = module.log_group.ecs_service_csweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_csweb.nginx_name
@@ -122,11 +120,15 @@ module "ecs_service_csweb" {
   task_definition_yml = "csweb.yaml"
   ## template parameters
   task_template_parameters = merge({
-    flask_debug = 1 # TODO:
+    flask_debug = var.csweb_ecs_params.debug_app
   }, local.task_definition_template_params_base)
   ## task parameters
-  task_cpu    = var.csweb_ecs_params.task_cpu
-  task_memory = var.csweb_ecs_params.task_memory
+  app_repository_url   = local.ecr_csweb.app_repository_url
+  app_image_tag        = var.csweb_ecs_params.app_image_tag
+  nginx_repository_url = local.ecr_csweb.nginx_repository_url
+  nginx_image_tag      = var.csweb_ecs_params.nginx_image_tag
+  task_cpu             = var.csweb_ecs_params.task_cpu
+  task_memory          = var.csweb_ecs_params.task_memory
   # service
   service_desired_count = var.csweb_ecs_params.service_desired_count
   # dependency 
@@ -144,16 +146,22 @@ module "ecs_service_admweb" {
   sg_ecs_ids                 = [module.security_group.ecs_admweb_id]
   iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
-  app_repository_url         = local.ecr_admweb.app_repository_url
-  nginx_repository_url       = local.ecr_admweb.nginx_repository_url
   alb_target_group_arn       = module.alb_admweb.target_group_arn
   log_group_app_name         = module.log_group.ecs_service_admweb.app_name
   log_group_nginx_name       = module.log_group.ecs_service_admweb.nginx_name
   # task definition
-  task_definition_yml      = "admweb.yaml"
-  task_template_parameters = merge({}, local.task_definition_template_params_base)
-  task_cpu                 = var.admweb_ecs_params.task_cpu
-  task_memory              = var.admweb_ecs_params.task_memory
+  task_definition_yml = "admweb.yaml"
+  ## template parameters
+  task_template_parameters = merge({
+    flask_debug = var.csweb_ecs_params.debug_app
+  }, local.task_definition_template_params_base)
+  ## task parameters
+  app_repository_url   = local.ecr_admweb.app_repository_url
+  app_image_tag        = var.admweb_ecs_params.app_image_tag
+  nginx_repository_url = local.ecr_admweb.nginx_repository_url
+  nginx_image_tag      = var.admweb_ecs_params.nginx_image_tag
+  task_cpu             = var.admweb_ecs_params.task_cpu
+  task_memory          = var.admweb_ecs_params.task_memory
   # service
   service_desired_count = var.admweb_ecs_params.service_desired_count
   # dependency

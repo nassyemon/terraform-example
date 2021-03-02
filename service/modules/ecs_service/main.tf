@@ -8,10 +8,15 @@ data "template_file" "task_definition_raw" {
   template = file("${path.module}/task-definitions/${var.task_definition_yml}")
 
   vars = merge({
-    environment          = var.env
-    docker_repository    = var.app_repository_url
-    image_tag            = "latest_main" # TODO.
-    nginx_container_port = 80
+    environment = var.env
+    # app
+    app_docker_repository = var.app_repository_url
+    app_image_tag         = var.app_image_tag
+    app_container_port    = 3000
+    # nginx
+    nginx_docker_repository = var.nginx_repository_url
+    nginx_image_tag         = var.nginx_image_tag
+    nginx_container_port    = 80
     # logs
     aws_region      = var.aws_region
     app_log_group   = var.log_group_app_name
@@ -23,7 +28,7 @@ data "template_file" "task_definition_raw" {
 resource "aws_ecs_cluster" "ecs_service" {
   name = "${local.family}-cluster"
   setting {
-    name = "containerInsights"
+    name  = "containerInsights"
     value = "enabled"
   }
 }
@@ -61,7 +66,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_arn
-    container_name   = "app"
+    container_name   = "nginx"
     container_port   = 80
   }
   # lifecycle {

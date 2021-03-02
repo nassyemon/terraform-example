@@ -27,22 +27,30 @@ variable "subnet_ids" {
   description = "List of ids of subnet where ecs task runs"
 }
 
-# ecs_service
+# task definition params
+variable "task_definition_yml" {
+  description = "Name of task definition yml file."
+}
+
 variable "app_repository_url" {
   description = "Docker repository for app"
+}
+
+variable "app_image_tag" {
+  description = "DOcker image tag to pull. Example: latest_main"
 }
 
 variable "nginx_repository_url" {
   description = "Docker repository for nginx"
 }
 
+variable "nginx_image_tag" {
+  description = "DOcker image tag to pull. Example: latest_main"
+}
+
 variable "sg_ecs_ids" {
   type        = list(string)
   description = "List of securty groups attached to ecs instances."
-}
-
-variable "alb_target_group_arn" {
-  description = "Arn of alb-target-group to which ecs instances are registered."
 }
 
 variable "log_group_app_name" {
@@ -53,14 +61,16 @@ variable "log_group_nginx_name" {
   description = "Name of log group for nginx."
 }
 
-variable "task_definition_yml" {
-  description = "Name of task definition yml file."
-}
-
 variable "task_template_parameters" {
   type        = map(any)
   description = "task defnition specific parameters."
 }
+
+# ecs service
+variable "alb_target_group_arn" {
+  description = "Arn of alb-target-group to which ecs instances are registered."
+}
+
 
 # task defintion parameters.
 variable "task_cpu" {

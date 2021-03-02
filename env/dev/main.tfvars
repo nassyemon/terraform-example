@@ -17,7 +17,7 @@ csweb_ecs_params = {
 # admweb
 admweb_subdomain         = "dev-admin"
 admweb_alb_ingress_cidrs = ["0.0.0.0/0"]
-admweb_health_check_path = "/api/__healthcheck"
+admweb_health_check_path = "/__healthcheck"
 admweb_ecs_params = {
   debug_app             = 1
   app_image_tag         = "latest_main"

@@ -10,20 +10,20 @@
       value: "${environment}"
     - name: NODE_ENV
       value: production
-    # - name: FLASK_APP
-    #   value: "./run.py"
-    # - name: FLASK_ENV
-    #   value: production
-    # - name: FLASK_DEBUG
-    #   value: "${flask_debug}"
-    # - name: DB_USER
-    #   value: "${db_username}"
-    # - name: DB_NAME
-    #   value: "${db_name}"
-    # - name: DB_PORT
-    #   value: "${db_port}"
-    # - name: DB_HOST
-    #   value: "${db_host}"
+    - name: FLASK_APP
+      value: "./run.py"
+    - name: FLASK_ENV
+      value: production
+    - name: FLASK_DEBUG
+      value: "${flask_debug}"
+    - name: DB_USER
+      value: "${db_username}"
+    - name: DB_NAME
+      value: "${db_name}"
+    - name: DB_PORT
+      value: "${db_port}"
+    - name: DB_HOST
+      value: "${db_host}"
     - name: APP_PORT
       value: "${app_container_port}"
   secrets:

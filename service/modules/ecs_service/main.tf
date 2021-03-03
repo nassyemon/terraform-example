@@ -1,6 +1,15 @@
+data "aws_caller_identity" "current" {}
+
 locals {
-  family          = "${var.project}-${var.env}-${var.service_name}"
-  task_definition = jsonencode(yamldecode(data.template_file.task_definition_raw.rendered))
+  region_account_id = "${var.aws_region}:${data.aws_caller_identity.current.account_id}"
+  family            = "${var.project}-${var.env}-${var.service_name}"
+  task_definition   = jsonencode(yamldecode(data.template_file.task_definition_raw.rendered))
+
+  tags = {
+    Env        = var.env
+    Project    = var.project
+    Management = "Terraform"
+  }
 }
 
 # template for task definition

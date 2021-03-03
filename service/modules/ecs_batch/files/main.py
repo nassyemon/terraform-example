@@ -1,6 +1,6 @@
 import boto3
 
-from data import (
+from const import (
     lambda_name,
     app_container_name,
     command,
@@ -10,15 +10,15 @@ from data import (
     security_group_ids,
     subnet_ids
 )
-from get_last_task_definition import get_last_task_definition
+from get_lastest_task_definition import get_lastest_task_definition
 from get_ecs_console_url import get_ecs_console_url
 
 client = boto3.client('ecs')
 
-def lambda_handler(event, context):
-    print(f"Failed to execute {lambda_name}")
+def handler(event, context):
     try:
-        task_definition_arn = get_last_task_definition(task_definition_family)
+        task_definition= get_lastest_task_definition(task_definition_family)
+        task_definition_arn = task_definition["taskDefinitionArn"]
         message = f"Invoking {lambda_name} with command = {command}"
         print(f"batch_cluster_arn={batch_cluster_arn}")
         print(f"task_definition_arn={task_definition_arn}")
@@ -52,7 +52,8 @@ def lambda_handler(event, context):
     except Exception as e:
         print(type(e))
         print(e.args)
-        print(e.message)
+        print(e)
         print("Failed to execute {lambda_name}")
-        raise e
-
+        return {
+            'error': str(e)
+        }

@@ -32,12 +32,20 @@ variable "task_definition_yml" {
   description = "Name of task definition yml file."
 }
 
+variable "app_repository_name" {
+  description = "Repository name of app"
+}
+
 variable "app_repository_url" {
   description = "Docker repository for app"
 }
 
 variable "app_image_tag" {
   description = "DOcker image tag to pull. Example: latest_main"
+}
+
+variable "nginx_repository_name" {
+  description = "Repository name for nginx"
 }
 
 variable "nginx_repository_url" {

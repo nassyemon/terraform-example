@@ -1,11 +1,19 @@
 locals {
-  lambda_name_prefix = "${local.family}-lambda-invoker"
+  lambda_name_prefix = "${local.family}-ecs"
   const_filename     = "const.py"
   files_dir          = "${path.module}/files"
 
-  functions = [for key, command in var.command_map : (
-    { name = "${local.lambda_name_prefix}-${key}", command = command }
-  )]
+  # names should be unique.
+  functions = [
+    {
+      name    = "${local.lambda_name_prefix}-update-task-defintion"
+      handler = "update_task_definition.handler"
+    },
+    {
+      name    = "${local.lambda_name_prefix}-update-service"
+      handler = "update_service.handler"
+    }
+  ]
 }
 
 # iam policy
@@ -25,19 +33,28 @@ data "template_file" "lambda_policy" {
         {
           "Action" : [
             "ecs:DescribeTaskDefinition",
+            "ecs:RegisterTaskDefinition",
+            "ecs:DeregisterTaskDefinition",
           ],
           "Effect" : "Allow",
           "Resource" : "*"
         },
         {
           "Action" : [
-            "ecs:RunTask",
+            "ecr:DescribeImages",
+          ],
+          "Effect" : "Allow",
+          "Resource" : "*"
+        },
+        {
+          "Action" : [
+            "ecs:UpdateService",
           ],
           "Effect" : "Allow",
           "Resource" : "*",
           "Condition" : {
             "ArnEquals" : {
-              "ecs:cluster" : "$${batch_cluster_arn}"
+              "ecs:cluster" : "$${service_cluster_arn}"
             }
           }
         },
@@ -57,14 +74,14 @@ data "template_file" "lambda_policy" {
   vars = {
     iam_ecs_task_role_arn      = var.iam_ecs_task_role_arn
     iam_ecs_execution_role_arn = var.iam_ecs_execution_role_arn
-    batch_cluster_arn          = aws_ecs_cluster.ecs_batch.arn
+    service_cluster_arn        = aws_ecs_cluster.ecs_service.arn
     log_group_resource         = "arn:aws:logs:${local.region_account_id}:log-group:/aws/lambda/${local.lambda_name_prefix}*"
   }
 }
 
 resource "aws_iam_policy" "lambda_policy" {
-  name        = "${local.family}-lambda-invoker-policy"
-  description = "lambda invoker policy for ${local.family}"
+  name        = "${local.lambda_name_prefix}-lambda-policy"
+  description = "Lambda policy for ${local.family} ecs operations"
   path        = "/"
 
   policy = data.template_file.lambda_policy.rendered
@@ -102,13 +119,15 @@ data "archive_file" "lambda_package" {
   source {
     content = templatefile("${path.module}/templates/${local.const_filename}", {
       lambda_name            = jsonencode(local.functions[count.index].name)
-      app_container_name     = jsonencode("app")
-      command                = jsonencode(local.functions[count.index].command)
-      task_definition_family = jsonencode(aws_ecs_task_definition.ecs_batch.family)
-      batch_cluster_name     = jsonencode(local.cluster_name)
-      batch_cluster_arn      = jsonencode(aws_ecs_cluster.ecs_batch.arn)
-      security_group_ids     = jsonencode(var.sg_ecs_ids)
-      subnet_ids             = jsonencode(var.subnet_ids)
+      task_definition_family = jsonencode(aws_ecs_task_definition.ecs_service.family)
+      app_repository_name    = jsonencode(var.app_repository_name)
+      app_image_tag          = jsonencode(var.app_image_tag)
+      app_repository_url     = jsonencode(var.app_repository_url)
+      nginx_repository_name  = jsonencode(var.nginx_repository_name)
+      nginx_image_tag        = jsonencode(var.nginx_image_tag)
+      nginx_repository_url   = jsonencode(var.nginx_repository_url)
+      service_name           = jsonencode(aws_ecs_service.ecs_service.name)
+      service_cluster_arn    = jsonencode(aws_ecs_cluster.ecs_service.arn)
     })
     filename = local.const_filename
   }
@@ -130,7 +149,7 @@ resource "aws_lambda_function" "lambda" {
   role             = aws_iam_role.lambda_role.arn
   filename         = data.archive_file.lambda_package[count.index].output_path
   function_name    = local.functions[count.index].name
-  handler          = "main.handler"
+  handler          = local.functions[count.index].handler
   source_code_hash = data.archive_file.lambda_package[count.index].output_base64sha256
   runtime          = "python3.8"
 

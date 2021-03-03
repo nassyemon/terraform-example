@@ -123,12 +123,14 @@ module "ecs_service_csweb" {
     flask_debug = var.csweb_ecs_params.debug_app
   }, local.task_definition_template_params_base)
   ## task parameters
-  app_repository_url   = local.ecr_csweb.app_repository_url
-  app_image_tag        = var.csweb_ecs_params.app_image_tag
-  nginx_repository_url = local.ecr_csweb.nginx_repository_url
-  nginx_image_tag      = var.csweb_ecs_params.nginx_image_tag
-  task_cpu             = var.csweb_ecs_params.task_cpu
-  task_memory          = var.csweb_ecs_params.task_memory
+  app_repository_name   = local.ecr_csweb.app_repository_name
+  app_repository_url    = local.ecr_csweb.app_repository_url
+  app_image_tag         = var.csweb_ecs_params.app_image_tag
+  nginx_repository_name = local.ecr_csweb.nginx_repository_name
+  nginx_repository_url  = local.ecr_csweb.nginx_repository_url
+  nginx_image_tag       = var.csweb_ecs_params.nginx_image_tag
+  task_cpu              = var.csweb_ecs_params.task_cpu
+  task_memory           = var.csweb_ecs_params.task_memory
   # service
   service_desired_count = var.csweb_ecs_params.service_desired_count
   # dependency 
@@ -156,12 +158,14 @@ module "ecs_service_admweb" {
     flask_debug = var.csweb_ecs_params.debug_app
   }, local.task_definition_template_params_base)
   ## task parameters
-  app_repository_url   = local.ecr_admweb.app_repository_url
-  app_image_tag        = var.admweb_ecs_params.app_image_tag
-  nginx_repository_url = local.ecr_admweb.nginx_repository_url
-  nginx_image_tag      = var.admweb_ecs_params.nginx_image_tag
-  task_cpu             = var.admweb_ecs_params.task_cpu
-  task_memory          = var.admweb_ecs_params.task_memory
+  app_repository_name   = local.ecr_admweb.app_repository_name
+  app_repository_url    = local.ecr_admweb.app_repository_url
+  app_image_tag         = var.admweb_ecs_params.app_image_tag
+  nginx_repository_name = local.ecr_admweb.nginx_repository_name
+  nginx_repository_url  = local.ecr_admweb.nginx_repository_url
+  nginx_image_tag       = var.admweb_ecs_params.nginx_image_tag
+  task_cpu              = var.admweb_ecs_params.task_cpu
+  task_memory           = var.admweb_ecs_params.task_memory
   # service
   service_desired_count = var.admweb_ecs_params.service_desired_count
   # dependency

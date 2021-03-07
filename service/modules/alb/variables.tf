@@ -47,6 +47,6 @@ variable "internal" {
   description = "True to create internal (not internet-facing) alb."
 }
 
-# variable logs_bucket {
-#   description = "Log bucket to store access logs of alb."
-# }
+variable "s3_bucket_access_log" {
+  description = "Log bucket to store access logs of alb."
+}

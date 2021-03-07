@@ -5,3 +5,7 @@ variable "project" {
 variable "env" {
   description = "dev/stg/prd"
 }
+
+variable "aws_region" {
+  description = "Example: ap-northeast-1"
+}

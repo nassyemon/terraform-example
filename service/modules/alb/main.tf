@@ -54,11 +54,11 @@ resource "aws_alb" "alb" {
 
   idle_timeout = "60"
 
-  # access_logs {
-  #   bucket  = var.s3_logs_bucket
-  #   prefix  = "alb"
-  #   enabled = true
-  # }
+  access_logs {
+    bucket  = var.s3_bucket_access_log
+    prefix  = local.alb_name
+    enabled = true
+  }
 
   tags = {
     Name       = local.alb_name

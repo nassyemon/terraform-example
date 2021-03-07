@@ -30,9 +30,10 @@ module "log_group" {
 
 # s3
 module "s3" {
-  source  = "./modules/s3"
-  env     = var.env
-  project = var.project
+  source     = "./modules/s3"
+  env        = var.env
+  project    = var.project
+  aws_region = var.aws_region
 }
 
 # iam
@@ -70,35 +71,37 @@ module "rds" {
 module "alb_csweb" {
   source = "./modules/alb"
 
-  env               = var.env
-  project           = var.project
-  hosted_zone_id    = var.hosted_zone_id
-  hosted_zone_name  = var.hosted_zone_name
-  vpc_id            = local.vpc_id
-  subdomain         = var.csweb_subdomain
-  health_check_path = var.csweb_health_check_path
-  subnet_ids        = local.public_subnet_ids
-  sg_alb_ids        = [module.security_group.alb_csweb_id]
-  listen_http       = true
-  redirect_https    = true
-  internal          = false
+  env                  = var.env
+  project              = var.project
+  hosted_zone_id       = var.hosted_zone_id
+  hosted_zone_name     = var.hosted_zone_name
+  vpc_id               = local.vpc_id
+  subdomain            = var.csweb_subdomain
+  health_check_path    = var.csweb_health_check_path
+  subnet_ids           = local.public_subnet_ids
+  sg_alb_ids           = [module.security_group.alb_csweb_id]
+  s3_bucket_access_log = module.s3.bucket_csweb_alb_access_log.id
+  listen_http          = true
+  redirect_https       = true
+  internal             = false
 }
 
 module "alb_admweb" {
   source = "./modules/alb"
 
-  env               = var.env
-  project           = var.project
-  hosted_zone_id    = var.hosted_zone_id
-  hosted_zone_name  = var.hosted_zone_name
-  vpc_id            = local.vpc_id
-  subdomain         = var.admweb_subdomain
-  health_check_path = var.admweb_health_check_path
-  subnet_ids        = local.public_subnet_ids
-  sg_alb_ids        = [module.security_group.alb_admweb_id]
-  listen_http       = false
-  redirect_https    = false
-  internal          = false
+  env                  = var.env
+  project              = var.project
+  hosted_zone_id       = var.hosted_zone_id
+  hosted_zone_name     = var.hosted_zone_name
+  vpc_id               = local.vpc_id
+  subdomain            = var.admweb_subdomain
+  health_check_path    = var.admweb_health_check_path
+  subnet_ids           = local.public_subnet_ids
+  sg_alb_ids           = [module.security_group.alb_admweb_id]
+  s3_bucket_access_log = module.s3.bucket_admweb_alb_access_log.id
+  listen_http          = false
+  redirect_https       = false
+  internal             = false
 }
 
 # ecs

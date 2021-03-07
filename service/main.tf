@@ -105,17 +105,18 @@ module "alb_admweb" {
 module "ecs_service_csweb" {
   source = "./modules/ecs_service"
 
-  env                        = var.env
-  project                    = var.project
-  aws_region                 = var.aws_region
-  service_name               = "csweb"
-  subnet_ids                 = local.webapp_subnet_ids
-  sg_ecs_ids                 = [module.security_group.ecs_csweb_id]
-  iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
-  iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
-  alb_target_group_arn       = module.alb_csweb.target_group_arn
-  log_group_app_name         = module.log_group.ecs_service_csweb.app_name
-  log_group_nginx_name       = module.log_group.ecs_service_csweb.nginx_name
+  env                          = var.env
+  project                      = var.project
+  aws_region                   = var.aws_region
+  service_name                 = "csweb"
+  subnet_ids                   = local.webapp_subnet_ids
+  sg_ecs_ids                   = [module.security_group.ecs_csweb_id]
+  iam_ecs_task_role_arn        = module.iam.ecs_task_role_arn
+  iam_ecs_execution_role_arn   = module.iam.ecs_execiton_role_arn
+  iam_ecs_autoscaling_role_arn = module.iam.ecs_autoscaling_role_arn
+  alb_target_group_arn         = module.alb_csweb.target_group_arn
+  log_group_app_name           = module.log_group.ecs_service_csweb.app_name
+  log_group_nginx_name         = module.log_group.ecs_service_csweb.nginx_name
   # task definition
   task_definition_yml = "csweb.yaml"
   ## template parameters
@@ -132,7 +133,10 @@ module "ecs_service_csweb" {
   task_cpu              = var.csweb_ecs_params.task_cpu
   task_memory           = var.csweb_ecs_params.task_memory
   # service
-  service_desired_count = var.csweb_ecs_params.service_desired_count
+  service_desired_count  = var.csweb_ecs_params.service_desired_count
+  service_min_count      = var.csweb_ecs_params.service_min_count
+  service_max_count      = var.csweb_ecs_params.service_max_count
+  cpu_utilization_target = var.csweb_ecs_params.cpu_utilization_target
   # dependency 
   depends_on = [module.rds, module.alb_csweb, module.operation_server]
 }
@@ -140,17 +144,18 @@ module "ecs_service_csweb" {
 module "ecs_service_admweb" {
   source = "./modules/ecs_service"
 
-  env                        = var.env
-  project                    = var.project
-  aws_region                 = var.aws_region
-  service_name               = "admweb"
-  subnet_ids                 = local.webapp_subnet_ids
-  sg_ecs_ids                 = [module.security_group.ecs_admweb_id]
-  iam_ecs_task_role_arn      = module.iam.ecs_task_role_arn
-  iam_ecs_execution_role_arn = module.iam.ecs_execiton_role_arn
-  alb_target_group_arn       = module.alb_admweb.target_group_arn
-  log_group_app_name         = module.log_group.ecs_service_admweb.app_name
-  log_group_nginx_name       = module.log_group.ecs_service_admweb.nginx_name
+  env                          = var.env
+  project                      = var.project
+  aws_region                   = var.aws_region
+  service_name                 = "admweb"
+  subnet_ids                   = local.webapp_subnet_ids
+  sg_ecs_ids                   = [module.security_group.ecs_admweb_id]
+  iam_ecs_task_role_arn        = module.iam.ecs_task_role_arn
+  iam_ecs_execution_role_arn   = module.iam.ecs_execiton_role_arn
+  iam_ecs_autoscaling_role_arn = module.iam.ecs_autoscaling_role_arn
+  alb_target_group_arn         = module.alb_admweb.target_group_arn
+  log_group_app_name           = module.log_group.ecs_service_admweb.app_name
+  log_group_nginx_name         = module.log_group.ecs_service_admweb.nginx_name
   # task definition
   task_definition_yml = "admweb.yaml"
   ## template parameters
@@ -167,7 +172,10 @@ module "ecs_service_admweb" {
   task_cpu              = var.admweb_ecs_params.task_cpu
   task_memory           = var.admweb_ecs_params.task_memory
   # service
-  service_desired_count = var.admweb_ecs_params.service_desired_count
+  service_desired_count  = var.admweb_ecs_params.service_desired_count
+  service_min_count      = var.admweb_ecs_params.service_min_count
+  service_max_count      = var.admweb_ecs_params.service_max_count
+  cpu_utilization_target = var.admweb_ecs_params.cpu_utilization_target
   # dependency
   depends_on = [module.rds, module.alb_admweb, module.operation_server]
 }

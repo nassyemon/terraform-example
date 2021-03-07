@@ -22,6 +22,10 @@ variable "iam_ecs_execution_role_arn" {
   description = "Arn of iam role that is used to execute ecs task."
 }
 
+variable "iam_ecs_autoscaling_role_arn" {
+  description = "Arn of iam role that is used to autoscale ecs service."
+}
+
 variable "subnet_ids" {
   type        = list(string)
   description = "List of ids of subnet where ecs task runs"
@@ -94,4 +98,29 @@ variable "task_memory" {
 variable "service_desired_count" {
   default     = 1
   description = "Desired count of ecs task runing in service.."
+}
+
+variable "service_min_count" {
+  default     = 1
+  description = "Minimum count of ecs task to scale down."
+}
+
+variable "service_max_count" {
+  default     = 2
+  description = "Maximum count of ecs task to scale up."
+}
+
+variable "cpu_utilization_target" {
+  default     = 50
+  description = "Average CPU utilization target value. Autoscaling used it to scale up or in ecs tasks."
+}
+
+variable "cpu_utilization_scale_up_cooldown" {
+  default     = 300
+  description = "Cool-down time before another scale up occurs."
+}
+
+variable "cpu_utilization_scale_in_cooldown" {
+  default     = 300
+  description = "Cool-down time before another scale in occurs."
 }

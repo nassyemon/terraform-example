@@ -78,8 +78,8 @@ resource "aws_ecs_service" "ecs_service" {
     container_name   = "nginx"
     container_port   = 80
   }
-  # lifecycle {
-  #   ignore_changes = [task_definition]
-  # }
+  lifecycle {
+    ignore_changes = [task_definition, desired_count]
+  }
   depends_on = [var.alb_target_group_arn]
 }

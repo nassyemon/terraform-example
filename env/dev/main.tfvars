@@ -12,6 +12,9 @@ csweb_ecs_params = {
   task_cpu              = 512
   task_memory           = 1024
   service_desired_count = 1
+  service_min_count     = 1
+  service_max_count     = 2
+  cpu_utilization_target = 50
 }
 
 # admweb
@@ -25,6 +28,9 @@ admweb_ecs_params = {
   task_cpu              = 512
   task_memory           = 1024
   service_desired_count = 1
+  service_min_count     = 1
+  service_max_count     = 2
+  cpu_utilization_target = 50
 }
 
 # batch-general

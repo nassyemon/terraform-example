@@ -122,17 +122,3 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_managed_policy" {
   role       = aws_iam_role.ecs_execution.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
-
-# autoscaling role
-resource "aws_iam_role" "ecs_autoscaling" {
-  name               = "${local.ecs_name_prefix}-autoscaling-role"
-  description        = "autoscaling role for ${local.ecs_name_prefix}"
-  assume_role_policy = local.assume_role_policy_ecs_tasks
-
-  tags = merge({ Policy = "" }, local.tags)
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_autoscaling_managed_policy" {
-  role       = aws_iam_role.ecs_autoscaling.id
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceAutoscaleRole"
-}

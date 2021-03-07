@@ -22,10 +22,6 @@ variable "iam_ecs_execution_role_arn" {
   description = "Arn of iam role that is used to execute ecs task."
 }
 
-variable "iam_ecs_autoscaling_role_arn" {
-  description = "Arn of iam role that is used to autoscale ecs service."
-}
-
 variable "subnet_ids" {
   type        = list(string)
   description = "List of ids of subnet where ecs task runs"

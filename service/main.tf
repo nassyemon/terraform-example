@@ -116,7 +116,6 @@ module "ecs_service_csweb" {
   sg_ecs_ids                   = [module.security_group.ecs_csweb_id]
   iam_ecs_task_role_arn        = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn   = module.iam.ecs_execiton_role_arn
-  iam_ecs_autoscaling_role_arn = module.iam.ecs_autoscaling_role_arn
   alb_target_group_arn         = module.alb_csweb.target_group_arn
   log_group_app_name           = module.log_group.ecs_service_csweb.app_name
   log_group_nginx_name         = module.log_group.ecs_service_csweb.nginx_name
@@ -155,7 +154,6 @@ module "ecs_service_admweb" {
   sg_ecs_ids                   = [module.security_group.ecs_admweb_id]
   iam_ecs_task_role_arn        = module.iam.ecs_task_role_arn
   iam_ecs_execution_role_arn   = module.iam.ecs_execiton_role_arn
-  iam_ecs_autoscaling_role_arn = module.iam.ecs_autoscaling_role_arn
   alb_target_group_arn         = module.alb_admweb.target_group_arn
   log_group_app_name           = module.log_group.ecs_service_admweb.app_name
   log_group_nginx_name         = module.log_group.ecs_service_admweb.nginx_name

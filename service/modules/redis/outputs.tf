@@ -9,3 +9,7 @@ output "endpoint_address" {
 output "cluster_enabled" {
   value = aws_elasticache_replication_group.redis.cluster_enabled
 }
+
+output "port" {
+  value = var.port
+}

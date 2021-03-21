@@ -5,6 +5,9 @@ locals {
     db_name                 = var.rds_appdb_name
     db_username             = var.rds_appdb_username
     db_password_secrets_arn = module.operation_server.appdb_user_password_secrets_arn
+    redis_host              = module.redis.endpoint_address
+    redis_port              = module.redis.port
+    redis_mode              = module.redis.cluster_enabled ? "cluster" : "single"
   }
 }
 

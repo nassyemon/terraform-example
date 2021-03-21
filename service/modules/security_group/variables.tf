@@ -14,6 +14,11 @@ variable "rds_port" {
   description = "rds port (3306 for mysql, 5432 for postgres)"
 }
 
+variable "redis_port" {
+  description = "redis cluster port (usually 6379)"
+}
+
+
 variable "webapp_subnet_ids" {
   description = "List of ids of public subnet."
 }

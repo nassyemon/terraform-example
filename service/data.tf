@@ -28,4 +28,5 @@ locals {
   public_subnet_ids         = local.network.public_subnet_ids
   webapp_subnet_ids         = local.network.webapp_subnet_ids
   database_subnet_ids       = local.network.database_subnet_ids
+  availability_zones        = local.network.availability_zones
 }

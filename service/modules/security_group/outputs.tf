@@ -21,3 +21,7 @@ output "ecs_batch_general_id" {
 output "rds_id" {
   value = aws_security_group.rds.id
 }
+
+output "redis_id" {
+  value = aws_security_group.redis.id
+}

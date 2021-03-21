@@ -21,7 +21,7 @@ resource "aws_db_instance" "rds" {
   port                      = var.port
   publicly_accessible       = false
   security_group_names      = []
-  vpc_security_group_ids    = var.rds_security_group_ids
+  vpc_security_group_ids    = var.security_group_ids
   db_subnet_group_name      = aws_db_subnet_group.rds.id
   parameter_group_name      = aws_db_parameter_group.rds.name
   multi_az                  = var.multi_az

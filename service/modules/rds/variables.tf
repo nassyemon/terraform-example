@@ -10,10 +10,6 @@ variable "ssm_base_path" {
   description = "SSM & Secrets manager base path."
 }
 
-variable "disabled" {
-  description = "set 1 or true to reduce payment"
-}
-
 variable "name" {
   description = "Name for rds"
 }
@@ -23,7 +19,7 @@ variable "database_subnet_ids" {
   description = "List of ids of database subnet."
 }
 
-variable "rds_security_group_ids" {
+variable "security_group_ids" {
   type        = list(any)
   description = "List of securty groups attached to RDS."
 }

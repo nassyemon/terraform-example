@@ -6,14 +6,14 @@ csweb_subdomain         = "dev-webapp"
 csweb_alb_ingress_cidrs = ["0.0.0.0/0"]
 csweb_health_check_path = "/__healthcheck"
 csweb_ecs_params = {
-  debug_app             = 1
-  app_image_tag         = "latest_main"
-  nginx_image_tag       = "latest_main"
-  task_cpu              = 512
-  task_memory           = 1024
-  service_desired_count = 1
-  service_min_count     = 1
-  service_max_count     = 2
+  debug_app              = 1
+  app_image_tag          = "latest_main"
+  nginx_image_tag        = "latest_main"
+  task_cpu               = 512
+  task_memory            = 1024
+  service_desired_count  = 1
+  service_min_count      = 1
+  service_max_count      = 2
   cpu_utilization_target = 50
 }
 
@@ -22,14 +22,14 @@ admweb_subdomain         = "dev-admin"
 admweb_alb_ingress_cidrs = ["0.0.0.0/0"]
 admweb_health_check_path = "/__healthcheck"
 admweb_ecs_params = {
-  debug_app             = 1
-  app_image_tag         = "latest_main"
-  nginx_image_tag       = "latest_main"
-  task_cpu              = 512
-  task_memory           = 1024
-  service_desired_count = 1
-  service_min_count     = 1
-  service_max_count     = 2
+  debug_app              = 1
+  app_image_tag          = "latest_main"
+  nginx_image_tag        = "latest_main"
+  task_cpu               = 512
+  task_memory            = 1024
+  service_desired_count  = 1
+  service_min_count      = 1
+  service_max_count      = 2
   cpu_utilization_target = 50
 }
 

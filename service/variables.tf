@@ -29,6 +29,10 @@ variable "global_be_region" {
 }
 
 # rds
+variable "rds_port" {
+  default = 3306
+}
+
 variable "rds_name" {
   description = "Name for rds"
 }
@@ -48,6 +52,16 @@ variable "rds_appdb_name" {
 
 variable "rds_appdb_username" {
   description = "Name of the user that app will use."
+}
+
+# redis cluster
+variable "redis_port" {
+  default = 6379
+}
+
+variable "redis_cluster_params" {
+  type        = map(any)
+  description = "node_type, num_clusters, multi_az_enabled ..."
 }
 
 # alb common

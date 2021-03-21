@@ -14,7 +14,8 @@ module "security_group" {
   env                      = var.env
   project                  = var.project
   vpc_id                   = local.vpc_id
-  rds_port                 = 3306
+  rds_port                 = var.rds_port
+  redis_port               = var.redis_port
   webapp_subnet_ids        = local.webapp_subnet_ids
   csweb_alb_ingress_cidrs  = var.csweb_alb_ingress_cidrs
   admweb_alb_ingress_cidrs = var.admweb_alb_ingress_cidrs
@@ -49,22 +50,37 @@ module "iam" {
 module "rds" {
   source = "./modules/rds"
 
-  env                    = var.env
-  project                = var.project
-  ssm_base_path          = local.ssm_base_path
-  name                   = var.rds_name
-  database_subnet_ids    = local.network.database_subnet_ids
-  rds_security_group_ids = [module.security_group.rds_id]
-  port                   = 3306
-  username               = var.rds_username
-  instance_class         = var.rds_instance_params.instance_class
-  allocated_storage      = var.rds_instance_params.allocated_storage
-  storage_class          = var.rds_instance_params.storage_class
-  multi_az               = var.rds_instance_params.multi_az
-  backup_window          = var.rds_instance_params.backup_window
-  maintenance_window     = var.rds_instance_params.maintenance_window
+  env                 = var.env
+  project             = var.project
+  ssm_base_path       = local.ssm_base_path
+  name                = var.rds_name
+  database_subnet_ids = local.network.database_subnet_ids
+  security_group_ids  = [module.security_group.rds_id]
+  port                = var.rds_port
+  username            = var.rds_username
+  instance_class      = var.rds_instance_params.instance_class
+  allocated_storage   = var.rds_instance_params.allocated_storage
+  storage_class       = var.rds_instance_params.storage_class
+  multi_az            = var.rds_instance_params.multi_az
+  backup_window       = var.rds_instance_params.backup_window
+  maintenance_window  = var.rds_instance_params.maintenance_window
+}
 
-  disabled = var.disabled
+# redis cluster
+module "redis" {
+  source = "./modules/redis"
+
+  env                        = var.env
+  project                    = var.project
+  database_subnet_ids        = local.network.database_subnet_ids
+  security_group_ids         = [module.security_group.redis_id]
+  port                       = var.redis_port
+  num_clusters               = var.redis_cluster_params.num_clusters
+  replicas_per_node_group    = try(var.redis_cluster_params.replicas_per_node_group, null)
+  cluster_enabled            = var.redis_cluster_params.cluster_enabled
+  node_type                  = var.redis_cluster_params.node_type
+  snapshot_window            = var.redis_cluster_params.snapshot_window
+  maintenance_window         = var.redis_cluster_params.maintenance_window
 }
 
 # alb

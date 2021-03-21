@@ -13,3 +13,12 @@ rds_instance_params = {
   backup_window      = "05:20-05:50"
   maintenance_window = "sun:04:00-sun:04:30"
 }
+
+redis_cluster_params = {
+  node_type               = "cache.t3.micro"
+  num_clusters            = 1
+  replicas_per_node_group = 0 # only valid when cluster_mode = true
+  cluster_enabled         = false
+  snapshot_window         = "05:00-06:00"
+  maintenance_window      = "sun:04:00-sun:05:00"
+}

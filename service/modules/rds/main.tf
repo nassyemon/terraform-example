@@ -29,8 +29,8 @@ resource "aws_db_instance" "rds" {
   backup_window             = var.backup_window
   maintenance_window        = var.maintenance_window
   final_snapshot_identifier = "${local.rds_identifier}-final"
-  
-  tags = merge({ Name  = local.rds_identifier}, local.tags)
+
+  tags = merge({ Name = local.rds_identifier }, local.tags)
 
   lifecycle {
     ignore_changes = [password]
@@ -59,7 +59,7 @@ resource "aws_db_subnet_group" "rds" {
   name        = "${local.rds_identifier}-subnet-group"
   description = "subnet group for ${local.rds_identifier}"
   subnet_ids  = var.database_subnet_ids
-  tags = merge({ Name = "${local.rds_identifier}-subnet-group" }, local.tags)
+  tags        = merge({ Name = "${local.rds_identifier}-subnet-group" }, local.tags)
 }
 
 resource "random_password" "password" {

@@ -13,7 +13,7 @@ locals {
       "Action" : "s3:PutObject"
       "Resource" : "$${resource}"
       "Principal" : {
-         "AWS": "arn:aws:iam::$${elb_account_id}:root"
+        "AWS" : "arn:aws:iam::$${elb_account_id}:root"
       }
     }
   })

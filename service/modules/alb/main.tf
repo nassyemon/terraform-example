@@ -122,9 +122,9 @@ resource "aws_alb_listener" "https" {
   #   }
   # }
 
-  # lifecycle {
-  #   ignore_changes = [default_action]
-  # }
+  lifecycle {
+    ignore_changes = [default_action]
+  }
   depends_on = [aws_alb.alb]
 }
 

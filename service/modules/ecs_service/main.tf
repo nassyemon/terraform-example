@@ -79,7 +79,7 @@ resource "aws_ecs_service" "ecs_service" {
     container_port   = 80
   }
   lifecycle {
-    ignore_changes = [task_definition, desired_count]
+    ignore_changes = [task_definition, desired_count, load_balancer]
   }
   depends_on = [var.alb_target_group_arn]
 }

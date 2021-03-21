@@ -20,6 +20,10 @@ output "database_subnet_ids" {
   value = module.database_subnet.ids
 }
 
+output "availability_zones" {
+  value = var.availability_zones
+}
+
 output "depends_id" {
   value = null_resource.dummy_dependency.id
 }

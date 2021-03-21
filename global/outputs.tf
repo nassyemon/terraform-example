@@ -12,6 +12,7 @@ output "production_network" {
     public_subnet_ids   = local.production_network.public_subnet_ids
     webapp_subnet_ids   = local.production_network.webapp_subnet_ids
     database_subnet_ids = local.production_network.database_subnet_ids
+    availability_zones  = local.production_network.availability_zones
   }
 }
 
@@ -23,6 +24,7 @@ output "development_network" {
     public_subnet_ids   = local.development_network.public_subnet_ids
     webapp_subnet_ids   = local.development_network.webapp_subnet_ids
     database_subnet_ids = local.development_network.database_subnet_ids
+    availability_zones  = local.development_network.availability_zones
   }
 }
 

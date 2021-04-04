@@ -28,3 +28,8 @@ resource "aws_route53_record" "dkim_record" {
   ttl     = "600"
   records = ["${element(aws_ses_domain_dkim.dkim.dkim_tokens, count.index)}.dkim.amazonses.com"]
 }
+
+resource "aws_ses_email_identity" "deverloper_emails" {
+  email = var.developer_email_addresses[count.index]
+  count = length(var.developer_email_addresses)
+}

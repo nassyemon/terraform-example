@@ -21,3 +21,8 @@ migrate_app_repository_name  = "migrate_app"
 
 external_operator_users_prd = ["takanashi"]
 operation_server_username   = "ubuntu"
+
+developer_email_addresses = [
+  "takanashi1986@gmail.com",
+  "takanashi.tmi@gmail.com"
+]

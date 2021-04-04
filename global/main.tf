@@ -33,8 +33,9 @@ module "ecr" {
 }
 
 module "ses" {
-  source           = "./modules/ses"
-  aws_region       = var.aws_region
-  hosted_zone_name = var.hosted_zone_name
-  hosted_zone_id   = var.hosted_zone_id
+  source                    = "./modules/ses"
+  aws_region                = var.aws_region
+  hosted_zone_name          = var.hosted_zone_name
+  hosted_zone_id            = var.hosted_zone_id
+  developer_email_addresses = var.developer_email_addresses
 }

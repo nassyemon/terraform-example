@@ -1,4 +1,3 @@
-aws_region        = "ap-northeast-1"
 aws_vpc_tags_name = "vpc"
 
 aws_vpc_cidr_prd = "172.30.0.0/16"

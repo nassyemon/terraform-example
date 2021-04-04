@@ -4,7 +4,7 @@ BE_BUCKET := $(shell env ${ENVS} sh -c 'echo $$BE_BUCKET')
 BE_KEY := $(shell env ${ENVS} sh -c 'echo $$BE_KEY')
 BE_REGION := $(shell env ${ENVS} sh -c 'echo $$BE_REGION')
 
-VAR_FILE_ARGS := -var-file ../env/global/main.tfvars
+VAR_FILE_ARGS :=  -var-file ../env/shared.tfvars -var-file ../env/global/main.tfvars
 
 # For commands that require additional arguments."
 ifneq (,$(filter output output-json,$(firstword $(MAKECMDGOALS))))

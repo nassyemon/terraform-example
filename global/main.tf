@@ -31,3 +31,10 @@ module "ecr" {
   admweb_nginx_repository_name = var.admweb_nginx_repository_name
   migrate_app_repository_name  = var.migrate_app_repository_name
 }
+
+module "ses" {
+  source           = "./modules/ses"
+  aws_region       = var.aws_region
+  hosted_zone_name = var.hosted_zone_name
+  hosted_zone_id   = var.hosted_zone_id
+}

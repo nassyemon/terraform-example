@@ -64,3 +64,12 @@ variable "external_operator_users_prd" {
 variable "operation_server_username" {
   description = "Username of operation server. Example: ubuntu"
 }
+
+# domain
+variable "hosted_zone_name" {
+  description = "Example: example.com"
+}
+
+variable "hosted_zone_id" {
+  description = "Hosted zone id found in Route53 hosted zone."
+}

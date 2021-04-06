@@ -2,6 +2,11 @@ variable "aws_region" {
   description = "Example: ap-northeast-1"
 }
 
+# shared
+variable "project" {
+  description = "project name. Example: foo-bar"
+}
+
 # network
 variable "disabled" {
   default     = false
@@ -80,7 +85,11 @@ variable "developer_email_addresses" {
   description = "email addresses to which SES can send mail (in sandbox mode.)"
 }
 
-# others
-variable "project" {
-  description = "not in use (placed to suppress warning.)"
-}
+# # cognito
+# variable "cognito_email_address_local_development" {
+#   description = "Cognito's auto sending email address (Example: no-reply@example.com)"
+# }
+
+# variable "cognito_email_display_name_local_development" {
+#   description = "Cognito's auto sending email display name (Example: no-reply)"
+# }

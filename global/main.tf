@@ -38,4 +38,17 @@ module "ses" {
   hosted_zone_name          = var.hosted_zone_name
   hosted_zone_id            = var.hosted_zone_id
   developer_email_addresses = var.developer_email_addresses
+  # cognito_email_address     = var.cognito_email_address_local_development
+}
+
+module "cognito_local_development" {
+  source             = "./modules/cognito"
+  user_pool_name     = "${var.project}-local-development"
+  project            = var.project
+  env                = "local-development"
+  # email_address      = var.cognito_email_address_local_development
+  # email_display_name = var.cognito_email_display_name_local_development
+  # email_idnetity_arn = module.ses.cognitio_email_identity_arn
+
+  # depends_on = [module.ses]
 }

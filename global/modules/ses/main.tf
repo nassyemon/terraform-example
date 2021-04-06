@@ -33,3 +33,7 @@ resource "aws_ses_email_identity" "deverloper_emails" {
   email = var.developer_email_addresses[count.index]
   count = length(var.developer_email_addresses)
 }
+
+# resource "aws_ses_email_identity" "cognito_email" {
+#   email = var.cognito_email_address
+# }

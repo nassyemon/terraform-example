@@ -14,3 +14,7 @@ variable "developer_email_addresses" {
   type        = list(any)
   description = "email addresses to which SES can send mail (in sandbox mode.)"
 }
+
+# variable "cognito_email_address" {
+#   description = "Cognito's auto sending email address (Example: no-reply)"
+# }

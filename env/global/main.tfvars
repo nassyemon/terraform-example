@@ -26,3 +26,6 @@ developer_email_addresses = [
   "takanashi1986@gmail.com",
   "takanashi.tmi@gmail.com"
 ]
+
+# cognito_email_address_local_development = "no-reply-local-dev@takanashi.xyz"
+# cognito_email_display_name_local_development = "no-reply"

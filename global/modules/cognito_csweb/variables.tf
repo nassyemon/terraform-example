@@ -1,7 +1,3 @@
-variable "user_pool_name" {
-  description = "name of cognito user-pool (Exmple: example-dev)"
-}
-
 variable "project" {
   description = "project name. Example: foo-bar"
 }

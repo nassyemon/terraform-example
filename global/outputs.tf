@@ -86,9 +86,9 @@ output "operation_server_username" {
 }
 
 # cognito
-output "cognito_local_development_user_pool_endpoint" {
-  value = module.cognito_local_development.user_pool_endpoint
+output "cognito_local_development_csweb_user_pool_endpoint" {
+  value = module.cognito_local_development_csweb.user_pool_endpoint
 }
-output "cognito_local_development_web_client_id" {
-  value = module.cognito_local_development.web_client_id
+output "cognito_local_development_csweb_web_client_id" {
+  value = module.cognito_local_development_csweb.web_client_id
 }

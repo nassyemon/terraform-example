@@ -30,7 +30,7 @@ variable "num_clusters" {
 
 variable "replicas_per_node_group" {
   description = "number of replicas per node group. (only effective when cluster_enabled = true)"
-  default = null
+  default     = null
 }
 
 variable "node_type" {

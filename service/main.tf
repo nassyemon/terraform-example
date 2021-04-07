@@ -69,21 +69,28 @@ module "rds" {
   maintenance_window  = var.rds_instance_params.maintenance_window
 }
 
-# redis cluster
+# redis
 module "redis" {
   source = "./modules/redis"
 
-  env                        = var.env
-  project                    = var.project
-  database_subnet_ids        = local.network.database_subnet_ids
-  security_group_ids         = [module.security_group.redis_id]
-  port                       = var.redis_port
-  num_clusters               = var.redis_cluster_params.num_clusters
-  replicas_per_node_group    = try(var.redis_cluster_params.replicas_per_node_group, null)
-  cluster_enabled            = var.redis_cluster_params.cluster_enabled
-  node_type                  = var.redis_cluster_params.node_type
-  snapshot_window            = var.redis_cluster_params.snapshot_window
-  maintenance_window         = var.redis_cluster_params.maintenance_window
+  env                     = var.env
+  project                 = var.project
+  database_subnet_ids     = local.network.database_subnet_ids
+  security_group_ids      = [module.security_group.redis_id]
+  port                    = var.redis_port
+  num_clusters            = var.redis_cluster_params.num_clusters
+  replicas_per_node_group = try(var.redis_cluster_params.replicas_per_node_group, null)
+  cluster_enabled         = var.redis_cluster_params.cluster_enabled
+  node_type               = var.redis_cluster_params.node_type
+  snapshot_window         = var.redis_cluster_params.snapshot_window
+  maintenance_window      = var.redis_cluster_params.maintenance_window
+}
+
+# cognito
+module "cognito_csweb" {
+  source  = "../global/modules/cognito_csweb"
+  project = var.project
+  env     = var.env
 }
 
 # alb

@@ -1,5 +1,6 @@
 locals {
-  identity_pool_name = "${var.user_pool_name}-identity-pool"
+  user_pool_name     = "${var.project}-${var.env}-csweb"
+  identity_pool_name = "${local.user_pool_name}-identity-pool"
   # from_email_address = "${var.email_display_name} <${var.email_address}>"
   tags = {
     Env        = var.env
@@ -9,7 +10,7 @@ locals {
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
-  name = var.user_pool_name
+  name = local.user_pool_name
   # ユーザー確認を行う際にEmail or 電話で自動検証を行うための設定。Emailを指定。
   auto_verified_attributes = [
     "email",
@@ -74,18 +75,18 @@ resource "aws_cognito_user_pool" "user_pool" {
     sms_message          = " パスコードは {####} です。"
   }
 
-  tags = merge({ Name = var.user_pool_name }, local.tags)
-  
+  tags = merge({ Name = local.user_pool_name }, local.tags)
+
   lifecycle {
     ignore_changes = [
-      schema     ### AWS doesn't allow schema updates, so every build will re-create the user pool unless we ignore this bit
+      schema ### AWS doesn't allow schema updates, so every build will re-create the user pool unless we ignore this bit
     ]
   }
 }
 
 resource "aws_cognito_user_pool_client" "web_client" {
-  name = "${var.user_pool_name}-web-client"
-  
+  name = "${local.user_pool_name}-web-client"
+
   allowed_oauth_flows                  = []
   allowed_oauth_flows_user_pool_client = false
   allowed_oauth_scopes                 = []
@@ -116,16 +117,16 @@ resource "aws_cognito_user_pool_client" "web_client" {
 }
 
 resource "aws_cognito_identity_pool" "user_pool" {
-  identity_pool_name               =  local.identity_pool_name
-  
+  identity_pool_name = local.identity_pool_name
+
   allow_unauthenticated_identities = false
 
-  openid_connect_provider_arns     = []
-  saml_provider_arns               = []
-  supported_login_providers        = {}
+  openid_connect_provider_arns = []
+  saml_provider_arns           = []
+  supported_login_providers    = {}
   tags = merge({
-    Name = local.identity_pool_name,
-    UserPool = var.user_pool_name,
+    Name     = local.identity_pool_name,
+    UserPool = local.user_pool_name,
   }, local.tags)
 
   cognito_identity_providers {

@@ -41,11 +41,10 @@ module "ses" {
   # cognito_email_address     = var.cognito_email_address_local_development
 }
 
-module "cognito_local_development" {
-  source             = "./modules/cognito"
-  user_pool_name     = "${var.project}-local-development"
-  project            = var.project
-  env                = "local-development"
+module "cognito_local_development_csweb" {
+  source  = "./modules/cognito_csweb"
+  project = var.project
+  env     = "local-development"
   # email_address      = var.cognito_email_address_local_development
   # email_display_name = var.cognito_email_display_name_local_development
   # email_idnetity_arn = module.ses.cognitio_email_identity_arn

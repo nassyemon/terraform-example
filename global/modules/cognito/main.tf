@@ -1,6 +1,5 @@
 locals {
-  user_pool_name = "${var.project}-local-development"
-  identity_pool_name = "${local.user_pool_name}-identity-pool"
+  identity_pool_name = "${var.user_pool_name}-identity-pool"
   # from_email_address = "${var.email_display_name} <${var.email_address}>"
   tags = {
     Env        = var.env
@@ -10,7 +9,7 @@ locals {
 }
 
 resource "aws_cognito_user_pool" "user_pool" {
-  name = local.user_pool_name
+  name = var.user_pool_name
   # ユーザー確認を行う際にEmail or 電話で自動検証を行うための設定。Emailを指定。
   auto_verified_attributes = [
     "email",
@@ -75,7 +74,7 @@ resource "aws_cognito_user_pool" "user_pool" {
     sms_message          = " パスコードは {####} です。"
   }
 
-  tags = merge({ Name = local.user_pool_name }, local.tags)
+  tags = merge({ Name = var.user_pool_name }, local.tags)
   
   lifecycle {
     ignore_changes = [
@@ -85,7 +84,7 @@ resource "aws_cognito_user_pool" "user_pool" {
 }
 
 resource "aws_cognito_user_pool_client" "web_client" {
-  name = "${local.user_pool_name}-web-client"
+  name = "${var.user_pool_name}-web-client"
   
   allowed_oauth_flows                  = []
   allowed_oauth_flows_user_pool_client = false
@@ -126,7 +125,7 @@ resource "aws_cognito_identity_pool" "user_pool" {
   supported_login_providers        = {}
   tags = merge({
     Name = local.identity_pool_name,
-    UserPool = local.user_pool_name,
+    UserPool = var.user_pool_name,
   }, local.tags)
 
   cognito_identity_providers {

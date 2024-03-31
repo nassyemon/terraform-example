@@ -1,6 +1,5 @@
 # terraform-example
-Terraform example.
-
+業務で使う前に色々と検証するためのアレ
 
 # requirements
 make(GNU)>=3.81
